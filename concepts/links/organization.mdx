@@ -1,0 +1,212 @@
+---
+title: Organizing links
+description: "Learn how to associate links with users, campaigns, teams, and other entities within your system."
+---
+
+When creating links programmatically with CodeQR, you might want a way to associate them with a user or other identifiers in your system.
+
+There are a few ways to do this, depending on your data structure:
+
+| Method                      | Type         | Description                                        | Use case                                                                                              |
+| --------------------------- | ------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [External ID](#external-id) | One-to-one   | A unique identifier for a link within your system. | Associating referral links with users in your system.                                                 |
+| [Tenant ID](#tenant-id)     | One-to-many  | The ID of the tenant that created the link.        | Grouping all links created by a user/team in your system.                                             |
+| [Tags](#tags)               | Many-to-many | Grouping links by tags                             | Organizing links by campaign / user / various for flexible, multi-dimensional filtering and reporting |
+
+## External ID
+
+In certain scenarios, it is essential to identify links within your system. For instance, you may need to associate a link with a user without storing the CodeQR link ID directly in your database (e.g. for referral links).
+
+The `externalId` field serves this purpose effectively. It acts as a unique identifier within your database, allowing you to associate it with a corresponding link in CodeQR's system.
+
+CodeQR allows you to create links using an `externalId` and subsequently retrieve them by the same identifier.
+
+<Note>
+  `externalId` should be a unique value across your workspace. Trying to create
+  a link with an externalId that already exists will result in a [`409` conflict
+  error](/api-reference/introduction#conflict) error.
+</Note>
+
+### Create link with an externalId
+
+Here is an example of how to create a link with an `externalId`:
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.codeqr.io/links \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "url": "https://google.com",
+    "external_id": "12345"
+  }'
+```
+
+</CodeGroup>
+
+### Retrieve link by externalId
+
+Let's see how to retrieve a link by its `externalId`:
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.codeqr.io/links/info?external_id=12345 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>
+
+### Update link by externalId
+
+In addition to updating a link by its `linkId`, you can also update a link by its `externalId`.
+
+<Note>
+  Make sure to prefix the `externalId` with `ext_`. For example, if your
+  `externalId` is `12345`, you should pass `ext_12345`.
+</Note>
+
+<CodeGroup>
+
+```bash cURL
+curl --request PATCH \
+  --url https://api.codeqr.io/links/ext_12345 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://www.google.uk"}'
+```
+
+</CodeGroup>
+
+### Retrieve analytics by externalId
+
+You can also retrieve analytics for a link by its `externalId`. This is helpful for fetching the analytics for a given link using the unique identifier from your system.
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.codeqr.io/analytics?external_id=ext_12345 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>
+
+## Tenant ID
+
+The ID of the tenant that created the link inside your system. If set, it can be used to fetch all links for a tenant. This is useful if you have a system that lets your users create their own links, and you want to group them on a tenant level.
+
+### Create link with tenantId
+
+Let's see how to create a link with a tenant ID:
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.codeqr.io/links \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "url": "https://google.com",
+    "external_id": "12345"
+  }'
+```
+
+</CodeGroup>
+
+### Retrieve links by tenantId
+
+Here is how to retrieve links by tenant ID:
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.codeqr.io/links?tenantId=12345 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>
+
+### Retrieve analytics by tenantId
+
+You can retrieve analytics by tenantId by passing the `tenantId` prop. This is helpful for fetching the analytics for all the links under a specific tenant, or the total analytics for a tenant.
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.codeqr.io/analytics?tenantId=12345 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>
+
+---
+
+## Tags
+
+Tags are a great way to organize your links on CodeQR.
+
+With tags, you can:
+
+- Organize your links by campaigns, clients, or any other categories you can think of.
+- [Filter your links by tags](#retrieve-links-by-tags) and get a shareable link to the filtered results.
+- [Filter your analytics by tags](#retrieve-analytics-by-tags) to see how your campaigns are performing.
+
+### Create link with tags
+
+You can use either pass the tag ID or tag name to create a link with tags.
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.codeqr.io/links \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "url": "https://example.com",
+    "tagIds": ["clux0rgak00011..."]
+  }'
+```
+
+</CodeGroup>
+
+### Retrieve links by tags
+
+You can retrieve links by tag by tags.
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.codeqr.io/links?tagNames=tag1 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>
+
+### Retrieve analytics by tags
+
+You can retrieve analytics for a tag (or multiple tags) by passing the `tagIds` prop. This is helpful for fetching the analytics for all the links under a specific tag, or the total analytics for a tag (or multiple tags).
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.codeqr.io/analytics?tagIds=tag_xxx \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>

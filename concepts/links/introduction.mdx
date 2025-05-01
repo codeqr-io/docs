@@ -1,0 +1,89 @@
+---
+title: Introduction
+og:title: "Links API – Introduction"
+description: "Learn how to use CodeQR to programmatically create, update, and delete links at scale."
+---
+
+Links are the bread and butter of [CodeQR](https://codeqr.io).
+
+Everything on CodeQR starts with a link. Whether you're creating:
+
+- a handful of links for your marketing campaign
+- hundreds of links for your [affiliate program](/partners/quickstart)
+- thousands of links, [programmatically](/api-reference/endpoint/bulk-create-links), for your SMS campaign
+
+In this guide, we'll cover the link model, how to create links, and more.
+
+## The link model
+
+The link model consists of the following properties:
+
+| Property    | Description                                               | Example                         |
+| ----------- | :-------------------------------------------------------- | :------------------------------ |
+| `id`        | The unique identifier of the link (prefixed with `link_`) | `link_eBKA4MT44XnI17hYLchkjUOd` |
+| `url`       | The destination URL of the link                           | `https://codeqr.io/home`        |
+| `shortLink` | The shortened version of the link (including https)       | `https://codeqr.link/claim`     |
+| `domain`    | The domain of the link                                    | `codeqr.link`                   |
+| `key`       | The short link slug                                       | `claim`                         |
+
+For more advanced features like [custom link previews](https://codeqr.io/help/article/custom-link-previews), [conversion tracking](/conversions/quickstart), and more, see the full list of properties [here](/api-reference/endpoint/create-a-link).
+
+You can use the various [CodeQR SDKs](/sdks/overview) to programmatically manage your links.
+
+## Create a link
+
+The `url` field, representing the destination URL, is the sole mandatory parameter required for the creation of a new short link.
+
+<CodeGroup>
+
+```bash cURL {5}
+curl --request POST \
+  --url https://api.codeqr.io/links \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://google.com"}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the link creation endpoint](/api-reference/endpoint/create-a-link).
+
+## Update a link
+
+An existing link can be updated by providing the `id` to the `update` method. This method returns the updated link as a response.
+
+You can use either the `linkId` or an `externalId` prefixed with `ext_` which is a unique identifier for the link in your own database to associate it with the link in CodeQR's system.
+
+<CodeGroup>
+
+```bash cURL
+curl --request PATCH \
+  --url https://api.codeqr.io/links/link_eBKA4MT44XnI17hYLchkjUOd \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://www.google.uk"}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the link update endpoint](/api-reference/endpoint/update-a-link).
+
+## Upsert a link
+
+Upserting a link is a combination of creating and updating a link. If a link with the same URL already exists, return it (or update it if there are any changes). Otherwise, a new link will be created.
+
+This allows you to use the upsert method without the necessity of checking for the link's existence beforehand.
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.codeqr.io/links/update \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://google.com"}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the link upsert endpoint](/api-reference/endpoint/upsert-a-link).

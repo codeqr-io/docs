@@ -1,32 +1,23 @@
-# Mintlify Starter Kit
+<a href="https://codeqr.io">
+  <img alt="SaaS platform for creating dynamic QR Codes, trackable short links, and interactive pages, focused on automation, analytics, and engagement." src="https://res.cloudinary.com/dhnaggn4g/image/upload/v1700072748/static/codeqr-thumbnail_w0oamm.png" />
+</a>
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+<h3 align="center">codeqr-io/docs</h3>
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+<p align="center">
+    Official documentation for <a href="https://codeqr.io"><strong>CodeQR</strong></a>
+</p>
 
-### Development
+## Getting started
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+1. Install Mintlify
 
 ```
 npm i -g mintlify
 ```
 
-Run the following command at the root of your documentation (where docs.json is)
+2. In the root of the repository, run the following command:
 
 ```
-mintlify dev
+npm run dev
 ```
-
-### Publishing Changes
-
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
-
-#### Troubleshooting
-
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`.
