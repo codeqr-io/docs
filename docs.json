@@ -129,9 +129,6 @@
     "dark": "/logos/wordmark-dark.svg",
     "href": "https://codeqr.io/home"
   },
-  "api": {
-    "openapi": "https://spec.speakeasy.com/codeqr/codeqr/codeqr-with-code-samples"
-  },
   "background": {
     "image": "/images/background.png"
   },
