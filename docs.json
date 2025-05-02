@@ -24,21 +24,6 @@
           {
             "group": "QR Codes",
             "pages": ["concepts/qrcodes/introduction"]
-          },
-          {
-            "group": "Integrations",
-            "pages": [
-              "integrations",
-              "integrations/quickstart",
-              {
-                "group": "Webhooks",
-                "pages": [
-                  "concepts/webhooks/introduction",
-                  "concepts/webhooks/event-types",
-                  "concepts/webhooks/verify-webhook-requests"
-                ]
-              }
-            ]
           }
         ]
       },
@@ -54,7 +39,6 @@
               "api-reference/rate-limits"
             ]
           },
-
           {
             "group": "APIs",
             "pages": [
