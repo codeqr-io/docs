@@ -129,6 +129,9 @@
     "dark": "/logos/wordmark-dark.svg",
     "href": "https://codeqr.io/home"
   },
+  "api": {
+    "openapi": "https://api.codeqr.io"
+  },
   "background": {
     "image": "/images/background.png"
   },
