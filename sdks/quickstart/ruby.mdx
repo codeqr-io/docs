@@ -1,0 +1,148 @@
+---
+title: "Introduction"
+description: "Learn how to integrate CodeQR with Ruby."
+---
+
+import Prerequisites from "/snippets/sdk-prerequisites.mdx";
+import LinkArguments from "/snippets/link-arguments.mdx";
+
+<Prerequisites />
+
+## 2. Install and initialize the CodeQR Ruby SDK
+
+<Steps titleSize="h3">
+
+<Step title="Install">
+
+To install the [CodeQR Ruby SDK](https://codeqr.link/sdks/ruby), run the following command:
+
+```bash bash
+gem install codeqr
+```
+
+</Step>
+
+<Step title="Initialize">
+
+Initialize the CodeQR Ruby SDK by creating a new instance of the `CodeQR` struct.
+
+```ruby
+require 'codeqr'
+
+codeqr = ::OpenApiSDK::CodeQR.new
+codeqr.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    token: ENV['CODEQR_API_KEY'],
+  )
+)
+```
+
+</Step>
+
+</Steps>
+
+## 3. Create link
+
+Let's create a short link using the [CodeQR Ruby SDK](https://codeqr.co/sdks/ruby).
+
+```ruby index.rb
+req = ::OpenApiSDK::Operations::CreateLinkRequest.new(
+  request_body: ::OpenApiSDK::Operations::CreateLinkRequestBody.new(
+    url: "https://google.com"
+  )
+)
+
+res = codeqr.links.create(req)
+
+puts res.raw_response.body
+```
+
+<Accordion title="Full list of available attributes for the Link model">
+  <LinkArguments />
+</Accordion>
+
+Optionally, you can also pass an `externalId` field which is a unique identifier for the link in your own database to associate it with the link in CodeQR's system.
+
+```ruby index.rb
+req = ::OpenApiSDK::Operations::CreateLinkRequest.new(
+  request_body: ::OpenApiSDK::Operations::CreateLinkRequestBody.new(
+    url: "https://google.com",
+    external_id: "12345"
+  )
+)
+
+res = codeqr.links.create(req)
+
+puts res.raw_response.body
+```
+
+This will let you easily [update the link](#5-update-link) or [retrieve analytics](#6-retrieve-analytics-for-link) for it later on using the `externalId` instead of the CodeQR `linkId`.
+
+## 4. Upsert link
+
+CodeQR Ruby SDK provides a method to upsert a link – where an existing link is updated if it exists, or a new link is created if it doesn't. so you don't have to worry about checking if the link already exists.
+
+```ruby index.rb
+req = ::OpenApiSDK::Operations::UpsertLinkRequest.new(
+  request_body: ::OpenApiSDK::Operations::UpsertLinkRequestBody.new(
+    url: "https://google.com",
+  ),
+)
+
+res = codeqr.links.upsert(req)
+
+puts res.raw_response.body
+```
+
+This way, you won't have to worry about checking if the link already exists when you're creating it.
+
+## 5. Update link
+
+Let's update an existing link using the CodeQR Ruby SDK.
+
+You can do that in two ways:
+
+- Using the link's `linkId` in CodeQR's system.
+- Using the link's `externalId` in your own database (prefixed with `ext_`).
+
+```ruby index.rb
+req = ::OpenApiSDK::Operations::UpdateLinkRequest.new(
+  link_id: "cly2p8onm000cym8200nfay7l",
+  request_body: ::OpenApiSDK::Operations::UpdateLinkRequestBody.new(
+    url: "https://google.us",
+  ),
+)
+
+res = codeqr.links.update(req)
+
+puts res.raw_response.body
+```
+
+## 6. Retrieve analytics for link
+
+Let's retrieve analytics for a link using the CodeQR Ruby SDK.
+
+```ruby index.rb
+req = ::OpenApiSDK::Operations::RetrieveAnalyticsRequest.new(
+  link_id: "clmnr6jcc0005l308q9v56uz1",
+  interval: ::OpenApiSDK::Operations::Interval::SEVEND,
+  group_by: ::OpenApiSDK::Operations::GroupBy::TIMESERIES
+)
+
+res = codeqr.analytics.retrieve(req)
+
+puts res.raw_response.body
+```
+
+## 7. Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Ruby Example"
+    icon="github"
+    href="https://github.com/codeqr-io/examples/tree/main/ruby"
+    color="#333333"
+  >
+    See the full example on GitHub.
+  </Card>
+</CardGroup>

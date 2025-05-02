@@ -1,0 +1,91 @@
+---
+title: Bulk operations
+description: "Learn how to perform bulk operations on QR Codes."
+---
+
+CodeQR allows you to perform bulk operations on QR Codes. This is particularly useful when you need to [create](/api-reference/endpoint/bulk-create-qrcodes), [update](/api-reference/endpoint/bulk-update-qrcodes), or [delete](/api-reference/endpoint/bulk-delete-qrcodes) multiple QR Codes at once without having to make multiple API requests.
+
+## Bulk create QR Codes
+
+Bulk create allows you to create up to 100 QR Codes at once.
+
+<Warning>
+  Bulk QR Code creation does not support [custom QR Code
+  designs](https://codeqr.io/help/article/custom-qr-designs). Also, [webhook
+  events](/concepts/webhooks/introduction) will not be triggered when using bulk
+  QR Code creation.
+</Warning>
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.codeqr.io/qrcodes/bulk \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+  --data '[
+    {
+      "url": "https://google.com"
+    },
+    {
+      "url": "https://google.uk"
+    }
+  ]'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the QR Code bulk creation endpoint](/api-reference/endpoint/bulk-create-qrcodes).
+
+## Bulk update QR Codes
+
+Bulk update allows you to modify up to 100 QR Codes simultaneously **with the same data**.
+
+Some potential use cases:
+
+- Tagging multiple QR Codes at once
+- Setting the same expiration date for multiple QR Codes
+- Updating UTM parameters for multiple QR Codes
+
+<Warning>
+  You cannot update the domain or key of a QR Code with this endpoint. Also,
+  [webhook events](/concepts/webhooks/introduction) will not be triggered when
+  using bulk QR Code updates.
+</Warning>
+
+<CodeGroup>
+
+```bash cURL
+curl --request PATCH \
+  --url https://api.codeqr.io/qrcodes/bulk \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"qrcode_ids": ["clux0rgak00011...", "clux0rgak00022..."], "data": {"utm_source": "facebook", "utm_medium": "cpc"}}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the QR Code bulk update endpoint](/api-reference/endpoint/bulk-update-qrcodes).
+
+## Bulk delete QR Codes
+
+With bulk delete, you can delete up to 100 QR Codes at once.
+
+<Warning>
+  This is a destructive action and cannot be undone. Proceed with caution. Also,
+  [webhook events](/concepts/webhooks/introduction) will not be triggered when
+  using this endpoint.
+</Warning>
+
+<CodeGroup>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.codeqr.io/qrcodes/bulk?qrcodeIds=clux0rgak00011... \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the QR Code bulk delete endpoint](/api-reference/endpoint/bulk-delete-qrcodes).

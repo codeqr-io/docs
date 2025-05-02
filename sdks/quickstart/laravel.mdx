@@ -1,0 +1,255 @@
+---
+title: "Laravel"
+description: "Learn how to integrate CodeQR with Laravel."
+---
+
+import Prerequisites from "/snippets/sdk-prerequisites.mdx";
+import LinkArguments from "/snippets/link-arguments.mdx";
+
+<Prerequisites />
+
+## 2. Install and initialize the CodeQR PHP SDK
+
+<Steps titleSize="h3">
+
+<Step title="Install">
+
+To install the [CodeQR PHP SDK](https://codeqr.io/sdks/php), run the following command:
+
+```bash
+composer require codeqr/codeqr-php
+```
+
+</Step>
+
+<Step title="Configuration">
+
+In your `.env` file, add your CodeQR API key:
+
+```bash
+CODEQR_API_KEY=your_api_key
+```
+
+In your `config/services.php` file, add the following:
+
+```php
+'codeqr' => [
+  'api_key' => env('CODEQR_API_KEY'),
+],
+```
+
+</Step>
+
+<Step title="Initialize">
+
+You can now create an instance of the `CodeQR` class and pass in your API key:
+
+```php index.php
+use CodeQR\CodeQR;
+use CodeQR\Components\Security;
+
+$codeqr = CodeQR::builder()->setSecurity(config('services.codeqr.api_key'))->build();
+
+// create a link
+$codeqr->links->create(...);
+```
+
+</Step>
+
+<Step title="Service Container (Optional)">
+
+If you want to be able to inject the `CodeQR` class via the service container, add this to the `register` method of your `AppServiceProvider.php`:
+
+```php index.php
+$this->app->bind(CodeQR::class, function ($app) {
+  return CodeQR::builder()->setSecurity($app['config']->get('services.codeqr.api_key'))->build();
+});
+```
+
+You can then inject the authenticated `CodeQR` instance throughout your application:
+
+```php index.php
+use CodeQR\Laravel\CodeQR;
+
+class LinkController extends Controller {
+  public function createLink(CodeQR $codeqr) {
+    // Now you can use the SDK instance
+    $codeqr->links->create(...);
+  }
+}
+```
+
+</Step>
+
+</Steps>
+
+## 3. Create link
+
+Let's create a short link using the CodeQR Laravel SDK.
+
+```php index.php
+use CodeQR\Models\Operations;
+
+class LinkController extends Controller {
+  public function createLink() {
+    $codeqr = new CodeQR();
+
+    try {
+      $request = new Operations\CreateLinkRequestBody(
+        url: 'https://google.com'
+      );
+
+      $response = $codeqr->links->create($request);
+
+      if ($response->linkSchema !== null) {
+        // handle response
+      }
+  } catch (Throwable $e) {
+    // handle exception
+  }
+  }
+}
+```
+
+<Accordion title="Full list of available attributes for the Link model">
+  <LinkArguments />
+</Accordion>
+
+Optionally, you can also pass an `externalId` field to associate the link with a unique identifier in your own system.
+
+```php index.php
+use CodeQR\Models\Operations;
+
+class LinkController extends Controller
+{
+    public function createLinkWithExternalId()
+    {
+        $codeqr = new CodeQR();
+
+        try {
+            $request = new Operations\CreateLinkRequestBody(
+                url: 'https://google.com',
+                externalId: '12345'
+            );
+
+            $response = $codeqr->links->create($request);
+
+            if ($response->linkSchema !== null) {
+                // handle response
+            }
+        } catch (Throwable $e) {
+            // handle exception
+        }
+    }
+}
+```
+
+This will let you easily [update the link](#5-update-link) or [retrieve analytics](#6-retrieve-analytics-for-link) for it later on using the `externalId` instead of the CodeQR `linkId`.
+
+## 4. Upsert link
+
+The CodeQR Laravel SDK provides a method to upsert a link – where an existing link is updated if it exists, or a new link is created if it doesn't.
+
+```php index.php
+use CodeQR\Models\Operations;
+
+class LinkController extends Controller
+{
+    public function upsertLink()
+    {
+        $codeqr = new CodeQR();
+
+        try {
+            $request = new Operations\UpsertLinkRequestBody(
+                url: 'https://google.com'
+            );
+
+            $response = $codeqr->links->upsert($request);
+
+            if ($response->linkSchema !== null) {
+                // handle response
+            }
+        } catch (Throwable $e) {
+            // handle exception
+        }
+    }
+}
+```
+
+This way, you won't have to worry about checking if the link already exists when you're creating it.
+
+## 5. Update link
+
+To update an existing link using the CodeQR Laravel SDK, you can either use the link's `linkId` or `externalId`.
+
+```php index.php
+use CodeQR\Models\Operations;
+
+class LinkController extends Controller
+{
+    public function updateLink()
+    {
+        $codeqr = new CodeQR();
+
+        try {
+            $request = new Operations\UpdateLinkRequest();
+            $request->linkId = 'cly2p8onm000cym8200nfay7l';
+            $request->requestBody = new Operations\UpdateLinkRequestBody();
+            $request->requestBody->url = 'https://google.us';
+
+            $response = $codeqr->links->update($request);
+
+            if ($response->linkSchema !== null) {
+                echo $response->linkSchema->shortLink;
+            }
+        } catch (Throwable $e) {
+            // handle exception
+        }
+    }
+}
+```
+
+## 6. Retrieve analytics for link
+
+You can also retrieve analytics for a link using the CodeQR Laravel SDK.
+
+```php index.php
+use CodeQR\Models\Operations;
+
+class LinkController extends Controller
+{
+    public function retrieveAnalytics()
+    {
+        $codeqr = new CodeQR();
+
+        try {
+            $request = new Operations\RetrieveAnalyticsRequest();
+            $request->linkId = 'clmnr6jcc0005l308q9v56uz1';
+            $request->interval = Operations\Interval::SevenD;
+            $request->groupBy = Operations\GroupBy::Timeseries;
+
+            $response = $codeqr->analytics->retrieve($request);
+
+            if ($response->oneOf !== null) {
+                // Handle the response
+                print_r($response->oneOf);
+            }
+        } catch (Throwable $e) {
+            // handle exception
+        }
+    }
+}
+```
+
+## 7. Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Laravel Example"
+    icon="github"
+    href="https://github.com/codeqr-io/examples/tree/main/php/laravel"
+    color="#333333"
+  >
+    See the full example on GitHub.
+  </Card>
+</CardGroup>

@@ -1,0 +1,138 @@
+---
+title: "Command Line Interface (CLI)"
+description: Programmatically manage your CodeQR resources directly from your terminal.
+---
+
+## Install
+
+<Tabs>
+  <Tab title="npm">
+
+    ```bash
+    npm i -g codeqr-cli@latest
+    ```
+
+  </Tab>
+  <Tab title="yarn">
+  
+    ```bash
+    yarn global add codeqr-cli@latest
+    ```
+  
+  </Tab>
+  <Tab title="pnpm">
+  
+    ```bash 
+    pnpm i -g codeqr-cli@latest
+    ```
+  
+  </Tab>
+</Tabs>
+
+<Info>To update an existing installation, run the same command.</Info>
+
+## Version
+
+Check your installed version of CodeQR CLI:
+
+```bash
+codeqr --version
+# => 0.0.12
+```
+
+## Commands
+
+Below is a list of available commands in the CodeQR CLI:
+
+<AccordionGroup>
+
+<Accordion title="codeqr login">
+
+Log into the CodeQR platform:
+
+```bash
+codeqr login
+```
+
+</Accordion>
+
+<Accordion title="codeqr config">
+
+View your workspace credentials:
+
+```bash
+codeqr config
+```
+
+</Accordion>
+
+<Accordion title="codeqr domains">
+
+Configure a domain for URL shortening:
+
+```bash
+codeqr domains
+```
+
+</Accordion>
+
+<Accordion title="codeqr shorten">
+
+Create a short link:
+
+```bash
+codeqr shorten
+```
+
+You can preemptively pass the URL and the generated short link key, or go through the CLI prompts.
+
+```bash
+codeqr shorten [url] [key]
+```
+
+</Accordion>
+
+<Accordion title="codeqr links">
+
+Search for links in your CodeQR workspace:
+
+```bash
+codeqr links
+```
+
+Here are the available options:
+
+| Option                  | Description                                 |
+| ----------------------- | ------------------------------------------- |
+| `-s, --search <search>` | Search by name                              |
+| `-l, --limit <limit>`   | Limit the number of results (default is 10) |
+
+```bash
+codeqr links [options]
+```
+
+</Accordion>
+
+<Accordion title="codeqr help">
+
+Get help for a specific command:
+
+```bash
+codeqr help [command]
+```
+
+</Accordion>
+
+</AccordionGroup>
+
+## Demo
+
+Watch the CodeQR CLI in action:
+
+<video
+  src="https://github.com/user-attachments/assets/2ce9fe51-68ab-4e6d-b08d-4da09c17f90e"
+  loop
+  autoPlay
+  muted
+  playsInline
+/>

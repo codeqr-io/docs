@@ -1,0 +1,164 @@
+---
+title: "Sinatra"
+description: "Learn how to integrate CodeQR with Sinatra."
+---
+
+import Prerequisites from "/snippets/sdk-prerequisites.mdx";
+import LinkArguments from "/snippets/link-arguments.mdx";
+
+<Prerequisites />
+
+## 2. Install and initialize the CodeQR Ruby SDK
+
+<Steps titleSize="h3">
+
+<Step title="Install">
+
+To install the [CodeQR Ruby SDK](https://codeqr.io/sdks/ruby), run the following command:
+
+```bash bash
+gem install codeqr
+```
+
+</Step>
+
+<Step title="Initialize">
+
+Initialize the CodeQR Ruby SDK by creating a new instance of the `CodeQR` struct.
+
+```ruby index.rb
+require "sinatra"
+require "codeqr"
+
+codeqr = ::OpenApiSDK::CodeQR.new
+codeqr.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    token: ENV['CODEQR_API_KEY'],
+  )
+)
+```
+
+</Step>
+
+</Steps>
+
+## 3. Create link
+
+Let's create a short link using the [CodeQR Ruby SDK](https://codeqr.co/sdks/ruby).
+
+```ruby index.rb
+post "/links" do
+  req = ::OpenApiSDK::Operations::CreateLinkRequest.new(
+    request_body: ::OpenApiSDK::Operations::CreateLinkRequestBody.new(
+      url: 'https://google.com'
+    )
+  )
+
+  res = codeqr.links.create(req)
+
+  content_type :json
+  res.raw_response.body
+end
+```
+
+<Accordion title="Full list of available attributes for the Link model">
+  <LinkArguments />
+</Accordion>
+
+Optionally, you can also pass an `externalId` field which is a unique identifier for the link in your own database to associate it with the link in CodeQR's system.
+
+```ruby index.rb
+post "/links" do
+  req = ::OpenApiSDK::Operations::CreateLinkRequest.new(
+    request_body: ::OpenApiSDK::Operations::CreateLinkRequestBody.new(
+      url: 'https://google.com',
+      external_id: '12345'
+    )
+  )
+
+  res = codeqr.links.create(req)
+
+  content_type :json
+  res.raw_response.body
+end
+```
+
+This will let you easily [update the link](#5-update-link) or [retrieve analytics](#6-retrieve-analytics-for-link) for it later on using the `externalId` instead of the CodeQR `linkId`.
+
+## 4. Upsert link
+
+CodeQR Ruby SDK provides a method to upsert a link – where an existing link is updated if it exists, or a new link is created if it doesn't. so you don't have to worry about checking if the link already exists.
+
+```ruby index.rb
+put "/links" do
+  req = ::OpenApiSDK::Operations::UpsertLinkRequest.new(
+    request_body: ::OpenApiSDK::Operations::UpsertLinkRequestBody.new(
+      url: "https://google.com",
+    ),
+  )
+
+  res = codeqr.links.upsert(req)
+
+  content_type :json
+  res.raw_response.body
+end
+```
+
+This way, you won't have to worry about checking if the link already exists when you're creating it.
+
+## 5. Update link
+
+Let's update an existing link using the CodeQR Ruby SDK.
+
+You can do that in two ways:
+
+- Using the link's `linkId` in CodeQR's system.
+- Using the link's `externalId` in your own database (prefixed with `ext_`).
+
+```ruby index.rb
+patch "/links" do
+  req = ::OpenApiSDK::Operations::UpdateLinkRequest.new(
+    link_id: "clyci5h0w000511sjmu0tyjv9",
+    request_body: ::OpenApiSDK::Operations::UpdateLinkRequestBody.new(
+      url: 'https://google.uk'
+    )
+  )
+
+  res = codeqr.links.update(req)
+
+  content_type :json
+  res.raw_response.body
+end
+```
+
+## 6. Retrieve analytics for link
+
+Let's retrieve analytics for a link using the CodeQR Ruby SDK.
+
+```ruby index.rb
+get "/analytics" do
+  req = ::OpenApiSDK::Operations::RetrieveAnalyticsRequest.new(
+    link_id: "clx1gvi9o0005hf5momm6f7hj",
+    interval: ::OpenApiSDK::Operations::Interval::SEVEND,
+    group_by: ::OpenApiSDK::Operations::GroupBy::TIMESERIES
+  )
+
+  res = codeqr.analytics.retrieve(req)
+
+  content_type :json
+  res.raw_response.body
+end
+```
+
+## 7. Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Sinatra Example"
+    icon="github"
+    href="https://github.com/codeqr-io/examples/tree/main/ruby/sinatra"
+    color="#333333"
+  >
+    See the full example on GitHub.
+  </Card>
+</CardGroup>

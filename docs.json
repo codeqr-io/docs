@@ -54,38 +54,7 @@
               "api-reference/rate-limits"
             ]
           },
-          {
-            "group": "SDKs",
-            "pages": [
-              {
-                "group": "Client-side SDK",
-                "pages": [
-                  "sdks/client-side/introduction",
-                  {
-                    "group": "Installation Guides",
-                    "pages": [
-                      "sdks/client-side/installation-guides/react",
-                      "sdks/client-side/installation-guides/manual",
-                      "sdks/client-side/installation-guides/webflow",
-                      "sdks/client-side/installation-guides/wordpress",
-                      "sdks/client-side/installation-guides/framer",
-                      "sdks/client-side/installation-guides/shopify"
-                    ]
-                  },
-                  {
-                    "group": "Features",
-                    "pages": [
-                      "sdks/client-side/features/conversion-tracking",
-                      "sdks/client-side/features/client-side-click-tracking",
-                      "sdks/client-side/features/cross-domain-tracking",
-                      "sdks/client-side/features/reverse-proxy-support"
-                    ]
-                  },
-                  "sdks/client-side/variants"
-                ]
-              }
-            ]
-          },
+
           {
             "group": "APIs",
             "pages": [
@@ -125,9 +94,9 @@
     ]
   },
   "logo": {
-    "light": "/logos/wordmark.svg",
-    "dark": "/logos/wordmark-dark.svg",
-    "href": "https://codeqr.io/home"
+    "light": "/logos/light.svg",
+    "dark": "/logos/dark.svg",
+    "href": "https://codeqr.io"
   },
   "api": {
     "openapi": "https://api.codeqr.io"
@@ -155,8 +124,8 @@
   "footer": {
     "socials": {
       "github": "https://github.com/codeqr-io/codeqr",
-      "linkedin": "https://www.linkedin.com/company/dubinc",
-      "twitter": "https://twitter.com/dubdotco",
+      "linkedin": "https://www.linkedin.com/company/codeqr",
+      "twitter": "https://twitter.com/codeqr_io",
       "website": "https://codeqr.io"
     }
   },
@@ -236,7 +205,7 @@
     },
     {
       "source": "/api-reference/endpoint/retrieve-a-project",
-      "destination": "/api-reference/endpoint/retrieve-a-workspace"
+      "destination": "/api-reference/endpoint/retrieve-a-project"
     },
     {
       "source": "/api-reference/endpoint/retrieve-a-list-of-projects",

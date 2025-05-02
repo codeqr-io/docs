@@ -3,9 +3,9 @@ title: "API keys"
 description: "Learn how API keys work on CodeQR."
 ---
 
-API keys on CodeQR allow you to access your workspace programmatically. This is useful for integrating CodeQR into your application or with other tools and services.
+API keys on CodeQR allow you to access your project programmatically. This is useful for integrating CodeQR into your application or with other tools and services.
 
-Each API key is tied to a specific workspace – meaning you can use it to access that workspace's resources without having to worry about "leaking" access to other workspaces.
+Each API key is tied to a specific project – meaning you can use it to access that project's resources without having to worry about "leaking" access to other workspaces.
 
 API keys on CodeQR follow the format:
 
@@ -20,12 +20,12 @@ By default, you can use this key to perform any API request without restriction,
 You can create an API key by following these steps:
 
 <Steps>
-  <Step title="Go to your workspace">
-    Go to **Settings** > [**API Keys**](https://app.codeqr.io/settings/tokens) in your workspace.
+  <Step title="Go to your project">
+    Go to **Settings** > [**API Keys**](https://app.codeqr.io/settings/tokens) in your project.
 
     <Frame>
       <img
-        src="/images/workspace-api-keys.png"
+        src="/images/project-api-keys.png"
         alt="Workspace API keys on CodeQR"
         width="1468"
         height="249"
@@ -39,8 +39,8 @@ You can create an API key by following these steps:
 
     Select between "You" and "Machine" to associate the API key with your account or a [machine user](#machine-users).
 
-    - **You**: This API key is tied to your user and can make requests against the selected workspace.
-    - **Machine**: A machine user will be added to your workspace, and an API key associated with that machine user will be created.
+    - **You**: This API key is tied to your user and can make requests against the selected project.
+    - **Machine**: A machine user will be added to your project, and an API key associated with that machine user will be created.
 
     <Frame>
       <img
@@ -62,7 +62,7 @@ You can create an API key by following these steps:
 
   </Step>
   <Step title="Use your API Key">
-    Now that you have your API key, you can use it to access your workspace's resources programmatically via SDKs or within any API request as a bearer token.
+    Now that you have your API key, you can use it to access your project's resources programmatically via SDKs or within any API request as a bearer token.
 
     ```
     Authorization: Bearer codeqr_xxxx
@@ -74,7 +74,7 @@ You can create an API key by following these steps:
 <Tip>
   We recommend creating API keys with the least privilege necessary to perform
   the required tasks. This helps to reduce the risk of unauthorized access to
-  your workspace.
+  your project.
 </Tip>
 
 ## API key permissions
@@ -96,11 +96,11 @@ Depending on your use case, you might want to use one of these 3 options to limi
 
 ## Machine users
 
-On CodeQR, you can create API keys that are associated with a "Machine user". This is particularly helpful when you don't want to associate the API key with a particular user in your workspace, to avoid security risks in involving turnover or changes in project ownership.
+On CodeQR, you can create API keys that are associated with a "Machine user". This is particularly helpful when you don't want to associate the API key with a particular user in your project, to avoid security risks in involving turnover or changes in project ownership.
 
 <Warning>
   Machine users share the same permissions as the [owner
-  role](https://codeqr.io/help/article/workspace-roles#owner-role) in a workspace.
+  role](https://codeqr.io/help/article/project-roles#owner-role) in a project.
   Make sure to only create machine users for trusted applications.
 </Warning>
 
@@ -113,7 +113,7 @@ On CodeQR, you can create API keys that are associated with a "Machine user". Th
   />
 </Frame>
 
-These machine users will show up on your workspace's **People** tab, but will not contribute to your workspace's user count.
+These machine users will show up on your project's **People** tab, but will not contribute to your project's user count.
 
 <Frame>
   <img

@@ -1,0 +1,157 @@
+---
+title: "Flask"
+description: "Learn how to integrate CodeQR with Flask."
+---
+
+import Prerequisites from "/snippets/sdk-prerequisites.mdx";
+import LinkArguments from "/snippets/link-arguments.mdx";
+
+<Prerequisites />
+
+## 2. Install and initialize the CodeQR Python SDK
+
+<Steps titleSize="h3">
+
+<Step title="Install">
+
+To install the [CodeQR Python SDK](https://codeqr.io/sdks/python), run the following command:
+
+```bash pip
+pip install codeqr
+```
+
+</Step>
+
+<Step title="Initialize">
+
+Initialize the CodeQR Python SDK by creating a new instance of the `CodeQR` class.
+
+```python
+import os
+import codeqr
+from codeqr.models import operations
+
+d = codeqr.CodeQR(
+  token=os.environ['CODEQR_API_KEY'],
+)
+```
+
+</Step>
+
+</Steps>
+
+## 3. Create link
+
+Let's create a short link using the [CodeQR Python SDK](https://codeqr.io/sdks/python).
+
+```python app.py
+def create_link():
+  res = d.links.create(request={
+    "url": "https://google.com",
+  })
+
+  return res.short_link
+```
+
+<Accordion title="Full list of available attributes for the Link model">
+  <LinkArguments />
+</Accordion>
+
+Optionally, you can also pass an `externalId` field which is a unique identifier for the link in your own database to associate it with the link in CodeQR's system.
+
+```python app.py
+def create_link(request):
+  res = d.links.create(request={
+    "url": "https://google.com",
+    "external_id": "12345",
+  })
+
+  return res.short_link
+```
+
+This will let you easily [update the link](#5-update-link) or [retrieve analytics](#6-retrieve-analytics-for-link) for it later on using the `externalId` instead of the CodeQR `linkId`.
+
+## 4. Upsert link
+
+CodeQR Python SDK provides a method to upsert a link – where an existing link is updated if it exists, or a new link is created if it doesn't. so you don't have to worry about checking if the link already exists.
+
+```python app.py
+def upsert_link(request):
+  res = d.links.upsert(request={
+    "url": "https://google.com",
+  })
+
+  return res.short_link
+```
+
+This way, you won't have to worry about checking if the link already exists when you're creating it.
+
+## 5. Update link
+
+Let's update an existing link using the CodeQR Python SDK.
+
+You can do that in two ways:
+
+- Using the link's `linkId` in CodeQR's system.
+- Using the link's `externalId` in your own database (prefixed with `ext_`).
+
+```python app.py
+# Update a link by its linkId
+def update_link(request):
+  res = d.links.update(link_id="clx1gvi9o0005hf5momm6f7hj", request_body={
+    "url": "https://google.uk",
+  })
+
+  return res.short_link
+
+# Update a link by its externalId
+def update_link(request):
+  res = d.links.update(external_id="ext_12345", request_body={
+    "url": "https://google.uk",
+  })
+
+  return res.short_link
+```
+
+## 6. Retrieve analytics for link
+
+CodeQR allows you to retrieve analytics for a link using the CodeQR Python SDK.
+
+```python app.py
+# Retrieve the timeseries analytics for the last 7 days for a link
+def analytics(request):
+  res = d.analytics.retrieve(request={
+    "link_id": "clx1gvi9o0005hf5momm6f7hj",
+    "interval": "7d",
+    "group_by": "timeseries",
+  })
+
+  return str(res)
+```
+
+Similarly, you can retrieve analytics for a link using the `externalId` field.
+
+```python views.py
+# Retrieve the timeseries analytics for the last 7 days for a link
+def analytics(request):
+  res = d.analytics.retrieve(request={
+    "external_id": "ext_12345",
+    "interval": "7d",
+    "group_by": "timeseries",
+  })
+
+  return str(res)
+```
+
+## 7. Examples
+
+<CardGroup cols={2}>
+  <Card
+    title="Python Example"
+    icon="github"
+    href="https://github.com/codeqr-io/examples/tree/main/python/flask"
+    color="#333333"
+  >
+    See the full example on GitHub.
+  </Card>
+</CardGroup>

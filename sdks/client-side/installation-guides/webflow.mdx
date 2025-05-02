@@ -1,0 +1,32 @@
+---
+title: Webflow
+description: How to add @codeqr/analytics to your Webflow site
+---
+
+import CodeQRAnalyticsParams from "/snippets/codeqr-analytics-params.mdx";
+import CodeQRClientInstallVerify from "/snippets/codeqr-client-install-verify.mdx";
+import ClientSideClickTrackingAddendum from "/snippets/client-side-click-tracking-addendum.mdx";
+
+With `@codeqr/analytics`, you can track lead and sale conversions on your Webflow site, enabling you to measure the effectiveness of your marketing campaigns.
+
+You can add the `@codeqr/analytics` script to your Webflow website same way you would add Google Analytics script or any other JavaScript code.
+
+Follow these steps to add the script to your site:
+
+- On your project's page, click on the **Webflow logo** in the left-hand side menu and choose **Project Settings**.
+- Choose **[Custom Code](https://university.webflow.com/lesson/custom-code-in-the-head-and-body-tags?topics=site-settings)** from the menu and paste the CodeQR analytics script in the **Head Code** section.
+- Click on the **Save Changes** button and then **Publish** your changes.
+
+```html
+<script src="https://codeqr-cdn.pages.dev/analytics/script.js" defer />
+```
+
+<ClientSideClickTrackingAddendum />
+
+<CodeQRClientInstallVerify />
+
+## Concepts
+
+You can pass the following props to the `@codeqr/analytics` script to customize its behavior:
+
+<CodeQRAnalyticsParams />

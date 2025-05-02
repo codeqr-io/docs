@@ -1,0 +1,92 @@
+---
+title: "Go SDK"
+description: "Learn how to integrate CodeQR with Go."
+---
+
+import SdkUsageExamples from "/snippets/sdk-usage-examples.mdx";
+
+## Installation
+
+```bash
+go get github.com/codeqr-io/codeqr-go
+```
+
+## Basic Usage
+
+Here's how you can use the CodeQR Go SDK to create a link and retrieve click analytics in timeseries format for it:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"os"
+
+	codeqr "github.com/codeqr-io/codeqr-go"
+)
+
+func main() {
+	// Initialize the CodeQR SDK with your API key
+	d := codeqr.New(
+		codeqr.WithSecurity(os.Getenv("CODEQR_API_KEY")), // optional, defaults to CODEQR_API_KEY
+	)
+
+	// Create a new link
+	request := &operations.CreateLinkRequestBody{
+		URL: "https://google.com",
+	}
+
+	ctx := context.Background()
+	res, err := d.Links.Create(ctx, request)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if res.LinkSchema != nil {
+		fmt.Println(res.LinkSchema.ShortLink) // e.g. https://codeqr.sh/abc123
+	}
+
+	// Get analytics for the link
+	analyticsRequest := operations.RetrieveAnalyticsRequest{
+		LinkId:   res.LinkSchema.ID,
+		GroupBy:  "timeseries",
+		Interval: "30d",
+	}
+
+	analyticsRes, err := d.Analytics.Retrieve(ctx, analyticsRequest)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if analyticsRes.OneOf != nil {
+		fmt.Println(analyticsRes.OneOf) // e.g. [{ start: "2024-01-01", clicks: 100 }]
+	}
+}
+```
+
+<SdkUsageExamples />
+
+You can also check out the [Go SDK quickstart](/sdks/quickstart/go) for a basic example.
+
+## Additional Resources
+
+<CardGroup cols={2}>
+  <Card title="Go Package" icon="golang" href="https://d.to/go/sdk">
+    Download and install the CodeQR Go SDK on GitHub
+  </Card>
+  <Card
+    title="Examples"
+    icon="github"
+    href="https://github.com/codeqr-io/examples/tree/main/go"
+  >
+    Quickstart examples with the Go SDK
+  </Card>
+  <Card
+    title="SDK Reference"
+    icon="book"
+    iconType="solid"
+    href="https://github.com/codeqr-io/codeqr-go/blob/main/README.md"
+  >
+    View the complete SDK reference documentation
+  </Card>
+</CardGroup>

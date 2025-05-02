@@ -1,0 +1,94 @@
+---
+title: Introduction
+og:title: "QR Codes API – Introduction"
+description: "Learn how to use CodeQR to programmatically create, update, and manage QR Codes at scale."
+---
+
+QR Codes are a core feature of [CodeQR](https://codeqr.io).
+
+Everything on CodeQR starts with a QR Code. Whether you're creating:
+
+- a single QR Code for your marketing campaign
+- hundreds of QR Codes for your [event registrations](/partners/quickstart)
+- thousands of QR Codes, [programmatically](/api-reference/endpoint/bulk-create-qrcodes), for your product catalog
+
+In this guide, we'll cover the QR Code model, how to create QR Codes, and more.
+
+## The QR Code model
+
+The QR Code model consists of the following properties:
+
+| Property       | Description                                                   | Example                                      |
+| -------------- | :------------------------------------------------------------ | :------------------------------------------ |
+| `id`           | The unique identifier of the QR Code                          | `cm9zsbu1f00019imtllva1p35`                 |
+| `url`          | The destination URL encoded in the QR Code                    | `https://expol.ink/p/rTrlexxQcj`            |
+| `shortLink`    | The shortened version of the QR Code link                     | `https://expol.ink/zfNIPj8Mv24Q-qr`         |
+| `domain`       | The domain of the QR Code                                     | `expol.ink`                                 |
+| `key`          | The unique slug for the QR Code                               | `zfNIPj8Mv24Q-qr`                           |
+| `image`        | The URL of the generated QR Code image                        | `https://res.cloudinary.com/.../qr.png`     |
+| `bgColor`      | The background color of the QR Code                           | `#ffffff`                                   |
+| `fgColor`      | The foreground color of the QR Code                           | `#4a69ff`                                   |
+| `size`         | The size of the QR Code in pixels                             | `1024`                                      |
+| `level`        | The error correction level of the QR Code                     | `H`                                         |
+| `showLogo`     | Whether the QR Code includes a logo                           | `true`                                      |
+| `scans`        | The number of times the QR Code has been scanned              | `1`                                         |
+| `createdAt`    | The timestamp when the QR Code was created                    | `2025-04-27T15:09:08.689Z`                  |
+| `updatedAt`    | The timestamp when the QR Code was last updated               | `2025-04-27T15:09:08.689Z`                  |
+
+For more advanced features like [custom QR Code designs](https://codeqr.io/help/article/custom-qr-designs), [scan tracking](/scans/quickstart), and more, see the full list of properties [here](/api-reference/endpoint/create-a-qrcode).
+
+You can use the various [CodeQR SDKs](/sdks/overview) to programmatically manage your QR Codes.
+
+## Create a QR Code
+
+The `url` field, representing the destination URL, is the sole mandatory parameter required for the creation of a new QR Code.
+
+<CodeGroup>
+
+```bash cURL {5}
+curl --request POST \
+  --url https://api.codeqr.io/qrcodes \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://google.com"}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the QR Code creation endpoint](/api-reference/endpoint/create-a-qrcode).
+
+## Update a QR Code
+
+An existing QR Code can be updated by providing the `id` to the `update` method. This method returns the updated QR Code as a response.
+
+<CodeGroup>
+
+```bash cURL
+curl --request PATCH \
+  --url https://api.codeqr.io/qrcodes/cm9zsbu1f00019imtllva1p35 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://www.google.uk"}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the QR Code update endpoint](/api-reference/endpoint/update-a-qrcode).
+
+## Upsert a QR Code
+
+Upserting a QR Code is a combination of creating and updating a QR Code. If a QR Code with the same URL already exists, return it (or update it if there are any changes). Otherwise, a new QR Code will be created.
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.codeqr.io/qrcodes/update \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"url": "https://google.com"}'
+```
+
+</CodeGroup>
+
+Check out the [full API reference for the QR Code upsert endpoint](/api-reference/endpoint/upsert-a-qrcode).

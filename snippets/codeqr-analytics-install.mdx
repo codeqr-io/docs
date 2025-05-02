@@ -1,0 +1,77 @@
+<Steps titleSize="h3">
+  <Step title="Install package">
+    Using the package manager of your choice, add the `@codeqr/analytics` to your project.
+
+    <CodeGroup>
+
+      ```bash npm
+      npm install @codeqr/analytics
+      ```
+
+      ```bash pnpm
+      pnpm add @codeqr/analytics
+      ```
+
+      ```bash yarn
+      yarn add @codeqr/analytics
+      ```
+
+      ```bash bun
+      bun add @codeqr/analytics
+      ```
+
+    </CodeGroup>
+
+  </Step>
+  
+  <Step title="Initialize package in your code">
+    If you are using a React framework, you can use the `<Analytics />` component to track conversions on your website.
+
+    E.g. if you're using Next.js, you can add the `<Analytics />` component to your root layout component or any other pages where you want to track conversions.
+
+    ```jsx app/layout.tsx
+    import { Analytics as CodeQRAnalytics } from '@codeqr/analytics/react';
+
+    export default function RootLayout({
+      children,
+    }: Readonly<{
+      children: React.ReactNode;
+    }>) {
+      return (
+        <html lang="en">
+          <body>{children}</body>
+          <CodeQRAnalytics />
+        </html>
+      );
+    }
+    ```
+
+  </Step>
+
+  <Step title="Optional: Set up client-side click tracking">
+
+    If you're using [CodeQR Partners](/partners/quickstart) for affiliate management,  you will also need to set up the `domainsConfig.refer` property to enable [client-side click-tracking](/sdks/client-side/features/client-side-click-tracking).
+
+    ```jsx app/layout.tsx
+    import { Analytics as CodeQRAnalytics } from '@codeqr/analytics/react';
+
+    export default function RootLayout({
+      children,
+    }: Readonly<{
+      children: React.ReactNode;
+    }>) {
+      return (
+        <html lang="en">
+          <body>{children}</body>
+          <CodeQRAnalytics domainsConfig={{
+            refer: "yourcompany.link"
+          }} />
+        </html>
+      );
+    }
+    ```
+
+    Read the [client-side click-tracking guide](/sdks/client-side/features/client-side-click-tracking) for more information.
+
+  </Step>
+</Steps>
