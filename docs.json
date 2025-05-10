@@ -24,6 +24,13 @@
           {
             "group": "QR Codes",
             "pages": ["concepts/qrcodes/introduction"]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations",
+              "integrations/quickstart"
+            ]
           }
         ]
       },
@@ -80,7 +87,7 @@
   "logo": {
     "light": "/logos/light.svg",
     "dark": "/logos/dark.svg",
-    "href": "https://codeqr.io"
+    "href": "https://codeqr.io/home"
   },
   "api": {
     "openapi": "https://api.codeqr.io"

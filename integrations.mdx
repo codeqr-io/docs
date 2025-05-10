@@ -41,6 +41,7 @@ These are the integrations that are officially supported and actively maintained
   >
     Integrate CodeQR with Make.com
   </Card>
+  {/* 
   <Card
     title="Stripe"
     href="https://codeqr.io/integrations/stripe"
@@ -71,19 +72,20 @@ These are the integrations that are officially supported and actively maintained
   >
     Integrate CodeQR with n8n
   </Card>
+  */}
 </CardGroup>
 
 ## Building your own integrations
 
-You can build your own integrations with CodeQR's link infrastructure using our [API](/api-reference/introduction).
+You can build your own integrations with CodeQR's infrastructure for both **links** and **QR Codes** using our [API](/api-reference/introduction).
 
-1. Read the documentation on how to [create links](/api-reference/endpoint/create-a-link) or [track sale conversions](/api-reference/endpoint/track-sale).
+1. Read the documentation on how to [create links](/api-reference/endpoint/create-a-link) or [create QR Codes](/api-reference/endpoint/create-a-qrcode).
 2. Learn how to [integrate CodeQR into your application](/integrations/quickstart).
 3. [Reach out to us](https://codeqr.io/contact/support) to feature your integration in the integrations marketplace.
 
 ## Integration webhooks
 
-CodeQR also supports webhooks for integrations. You can learn more about them in the [webhooks](/concepts/webhooks/introduction) documentation.
+CodeQR also supports webhooks for integrations. You can use these webhooks to track events for both links and QR Codes. Learn more in the [webhooks](/concepts/webhooks/introduction) documentation.
 
 Here's a list of the webhooks that CodeQR supports:
 
@@ -91,6 +93,9 @@ Here's a list of the webhooks that CodeQR supports:
 - [`link.updated`](/concepts/webhooks/event-types#link-updated) – when a link is updated
 - [`link.deleted`](/concepts/webhooks/event-types#link-deleted) – when a link is deleted
 - [`link.clicked`](/concepts/webhooks/event-types#link-clicked) – when a link is clicked
+- [`qrcode.created`](/concepts/webhooks/event-types#qrcode-created) – when a new QR Code is created
+- [`qrcode.updated`](/concepts/webhooks/event-types#qrcode-updated) – when a QR Code is updated
+- [`qrcode.deleted`](/concepts/webhooks/event-types#qrcode-deleted) – when a QR Code is deleted
+- [`qrcode.scanned`](/concepts/webhooks/event-types#qrcode-scanned) – when a QR Code is scanned
 - [`lead.created`](/concepts/webhooks/event-types#lead-created) – when a new lead is created
 - [`sale.created`](/concepts/webhooks/event-types#sale-created) – when a new sale is created
-- [`partner.enrolled`](/concepts/webhooks/event-types#partner-enrolled) – when a new partner is enrolled in your program
