@@ -85,8 +85,8 @@
     ]
   },
   "logo": {
-    "light": "/logos/light.svg",
-    "dark": "/logos/dark.svg",
+    "light": "/logos/light.png",
+    "dark": "/logos/dark.png",
     "href": "https://codeqr.io/home"
   },
   "api": {
