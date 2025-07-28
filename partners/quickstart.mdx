@@ -1,0 +1,74 @@
+---
+title: "Quickstart"
+description: "Learn how to set up your referral/affiliate program with CodeQR Partners."
+og:title: "CodeQR Partners – Quickstart"
+"og:image": "https://assets.codeqr.io/cms/codeqr-partners.jpg"
+---
+
+import CodeQRClientInstall from "/snippets/codeqr-client-install.mdx";
+import CodeQRClientInstallVerify from "/snippets/codeqr-client-install-verify.mdx";
+import VerifyTrackClick from "/snippets/verify-track-click.mdx";
+import InstallServerSdksTrackConversions from "/snippets/install-server-sdks-track-conversions.mdx";
+
+<Note>
+  CodeQR Partners require a [Business plan](https://codeqr.io/pricing) subscription or
+  higher.
+</Note>
+
+[CodeQR Partners](https://codeqr.io/help/article/codeqr-partners) lets you build powerful, scalable referral and affiliate programs with 1-click global payouts and white-labeling functionality.
+
+In this guide, we'll walk you through the steps to get started with CodeQR Partners:
+
+1. [Install the `@codeqr/analytics` client-side SDK](#step-1-install-the-codeqr-analytics-client-side-sdk)
+2. [Install the CodeQR server-side SDK + track conversion events](#step-2-install-the-codeqr-server-side-sdk--track-conversion-events)
+3. [Set up your partner program](#step-3-set-up-your-partner-program)
+
+## Step 1: Install the `@codeqr/analytics` client-side SDK
+
+First, you'll need to install the [@codeqr/analytics client-side SDK](/sdks/client-side/introduction).
+
+This script detects the `cq_id` query parameter and storing it as a first-party cookie, which will be used to attribute subsequent conversion events to the original link.
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-click-event.png"
+    alt="A diagram showing how click events are tracked in the conversion funnel"
+  />
+</Frame>
+
+On top of that, it also:
+
+- lets you [track clicks on the client-side](/sdks/client-side/features/client-side-click-tracking) using query parameters (e.g. `?via=john`)
+- [automatically fetch the partner and discount data](/sdks/client-side/features/client-side-click-tracking#automatically-fetching-partner-and-discount-data) for a given link – which is helpful for displaying [dual-sided incentives](https://codeqr.io/help/article/dual-sided-incentives)
+
+<CodeQRClientInstall />
+
+<CodeQRClientInstallVerify />
+
+Once the script is installed, make sure to verify that [client-side click tracking](/sdks/client-side/features/client-side-click-tracking) is working as expected by checking if the following is true:
+
+<VerifyTrackClick />
+
+## Step 2: Install the CodeQR server-side SDK + track conversion events
+
+<InstallServerSdksTrackConversions />
+
+## Step 3: Set up your partner program
+
+Once you have conversion tracking up and running, you can follow these steps to set up your partner program:
+
+1. Go through the [program onboarding flow](https://app.codeqr.io/programs) to create your program.
+   - If you're migrating from another platform, you can also import your partners and historical conversions (e.g. [from Rewardful](https://codeqr.io/help/article/migrating-from-rewardful)).
+2. [Connect your bank account](https://codeqr.io/help/article/how-to-set-up-bank-account) for partner payouts.
+3. [Invite your partners](https://codeqr.io/help/article/inviting-partners) to join your program + set up your [program application form](https://codeqr.io/help/article/inviting-partners#via-a-branded-application-form) for future partners.
+4. Create [custom reward rules](https://codeqr.io/help/article/partner-rewards) and [dual-sided incentives](https://codeqr.io/help/article/dual-sided-incentives) to incentivize partners to share your link with others.
+5. Set up a [whitelabeled referral dashboard](/partners/white-labeling) that lives directly inside your app so your users can automatically enroll in your partner program without leaving your app.
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/cms/codeqr-partners.jpg"
+    alt="CodeQR Partners"
+  />
+</Frame>

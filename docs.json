@@ -19,18 +19,52 @@
           },
           {
             "group": "Links",
-            "pages": ["concepts/links/introduction"]
+            "pages": [
+              "concepts/links/introduction",
+              "concepts/links/bulk-operations",
+              "concepts/links/organization"
+            ]
           },
           {
             "group": "QR Codes",
-            "pages": ["concepts/qrcodes/introduction"]
+            "pages": [
+              "concepts/qrcodes/introduction",
+              "concepts/qrcodes/bulk-operations",
+              "concepts/qrcodes/organization"
+            ]
+          },
+          {
+            "group": "Conversion tracking",
+            "pages": [
+              "conversions/quickstart",
+              {
+                "group": "Tracking lead events",
+                "pages": [
+                  "conversions/leads/introduction",
+                  "conversions/leads/clerk",
+                  "conversions/leads/next-auth",
+                  "conversions/leads/supabase",
+                  "conversions/leads/auth0",
+                  "conversions/leads/appwrite"
+                ]
+              },
+              {
+                "group": "Tracking sale events",
+                "pages": [
+                  "conversions/sales/introduction",
+                  "conversions/sales/stripe",
+                  "conversions/sales/shopify"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "CodeQR Partners",
+            "pages": ["partners/quickstart", "partners/white-labeling"]
           },
           {
             "group": "Integrations",
-            "pages": [
-              "integrations",
-              "integrations/quickstart"
-            ]
+            "pages": ["integrations", "integrations/quickstart"]
           }
         ]
       },
@@ -44,6 +78,45 @@
               "api-reference/introduction",
               "api-reference/tokens",
               "api-reference/rate-limits"
+            ]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "sdks/overview",
+              {
+                "group": "Server-side SDKs",
+                "pages": ["sdks/typescript"]
+              },
+              {
+                "group": "Client-side SDK",
+                "pages": [
+                  "sdks/client-side/introduction",
+                  {
+                    "group": "Installation Guides",
+                    "pages": [
+                      "sdks/client-side/installation-guides/react",
+                      "sdks/client-side/installation-guides/manual",
+                      "sdks/client-side/installation-guides/webflow",
+                      "sdks/client-side/installation-guides/wordpress"
+                    ]
+                  },
+                  {
+                    "group": "Features",
+                    "pages": [
+                      "sdks/client-side/features/conversion-tracking",
+                      "sdks/client-side/features/client-side-click-tracking",
+                      "sdks/client-side/features/cross-domain-tracking",
+                      "sdks/client-side/features/reverse-proxy-support"
+                    ]
+                  },
+                  "sdks/client-side/variants"
+                ]
+              },
+              {
+                "group": "Embedded Dashboards",
+                "pages": ["sdks/embed/referrals", "sdks/embed/analytics"]
+              }
             ]
           },
           {

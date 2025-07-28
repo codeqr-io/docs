@@ -1,0 +1,130 @@
+---
+title: "Quickstart"
+description: "Learn how to track conversion analytics with CodeQR."
+---
+
+import CodeQRClientInstall from "/snippets/codeqr-client-install.mdx";
+import CodeQRClientInstallVerify from "/snippets/codeqr-client-install-verify.mdx";
+import InstallServerSdksTrackConversions from "/snippets/install-server-sdks-track-conversions.mdx";
+import ViewConversions from "/snippets/view-conversions.mdx";
+
+<Note>
+  Conversion tracking require a [Business plan](https://codeqr.iopricing)
+  subscription or higher.
+</Note>
+
+[CodeQR Conversions](https://codeqr.io/help/article/codeqr-conversions) is a powerful tool that lets you turn any [short link you create on CodeQR](https://codeqr.io/help/article/how-to-create-link) into a full attribution engine. This allows you to understand how well your links are translating to actual users and revenue dollars.
+
+<Frame>
+  <img
+    src="https://assets.codeqr.ioblog/introducing-codeqr-conversions.webp"
+    alt="Conversion analytics"
+  />
+</Frame>
+
+In this guide, we'll walk you through the steps to get started with CodeQR Conversions:
+
+1. [Enable conversion tracking for your links](#step-1-enable-conversion-tracking-for-your-links)
+2. [Install the `@codeqr/analytics` client-side SDK](#step-2-install-the-codeqr-analytics-client-side-sdk)
+3. [Install the CodeQR server-side SDK + track conversion events](#step-3-install-the-codeqr-server-side-sdk-track-conversion-events)
+4. [View your conversions](#step-4-view-your-conversions)
+
+## Step 1: Enable conversion tracking for your links
+
+First, you'll need to enable conversion tracking for your CodeQR links to be able to start tracking conversions.
+
+There are a few ways to do this:
+
+<AccordionGroup>
+  <Accordion title="Option 1: On a workspace-level">
+    To enable conversion tracking for all future links in a workspace, you can do the following:
+To enable conversion tracking for all future links in a workspace, you can do the following:
+
+1. Navigate to your [workspace's Analytics settings page](https://app.codeqr.iosettings/analytics).
+2. Toggle the **Workspace-level Conversion Tracking** switch to enable conversion tracking for the workspace.
+
+<Frame>
+  <img
+    src="/images/conversions/enable-conversion-tracking-workspace.png"
+    alt="Enabling conversion tracking for a workspace"
+  />
+</Frame>
+
+    This option will enable conversion tracking in the [CodeQR Link Builder](https://codeqr.io/help/article/codeqr-link-builder) for all future links.
+
+  </Accordion>
+  <Accordion title="Option 2: On a link-level">
+    If you don't want to enable conversion tracking for all your links in a workspace, you can also opt to enable it on a link-level.
+
+To enable conversion tracking for a specific link, open the [CodeQR Link Builder](https://codeqr.io/help/article/codeqr-link-builder) for a link and toggle the **Conversion Tracking** switch.
+
+<Frame>
+  <img
+    src="/images/conversions/enable-conversion-tracking.png"
+    alt="Enabling conversion tracking for a link"
+  />
+</Frame>
+
+<Tip>
+  You can also use the `C` keyboard shortcut when inside the link builder to
+  quickly enable conversion tracking for a given link.
+</Tip>
+
+  </Accordion>
+  <Accordion title="Option 3: Via the API">
+    Alternatively, you can also enable conversion tracking programmatically via the [CodeQR API](/api-reference/introduction). All you need to do is pass `trackConversion: true` when creating or updating a link:
+
+    <CodeGroup>
+
+    ```javascript Node.js
+    const link = await codeqr.links.create({
+      url: "https://codeqr.io",
+      trackConversion: true,
+    });
+    ```
+
+    </CodeGroup>
+
+  </Accordion>
+</AccordionGroup>
+
+## Step 2: Install the `@codeqr/analytics` client-side SDK
+
+Next, you'll need to install the [@codeqr/analytics client-side SDK](/sdks/client-side/introduction).
+
+This script detects the `cq_id` query parameter and storing it as a first-party cookie, which will be used to attribute subsequent conversion events to the original link.
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-click-event.png"
+    alt="A diagram showing how click events are tracked in the conversion funnel"
+  />
+</Frame>
+
+<CodeQRClientInstall />
+
+<CodeQRClientInstallVerify />
+
+## Step 3: Install the CodeQR server-side SDK + track conversion events
+
+<InstallServerSdksTrackConversions />
+
+## Step 4: View your conversions
+
+Once you've enabled conversion tracking for your links, all your tracked conversions will show up on your [Analytics dashboard](https://app.codeqr.ioanalytics). We provide 3 different views to help you understand your conversions:
+
+<ViewConversions />
+
+## Example Apps
+
+<CardGroup cols={2}>
+  <Card
+    title="CodeQR Conversions Demo App"
+    icon="github"
+    href="https://github.com/codeqr-io/examples/tree/main/conversions/stripe"
+    color="#333333"
+  >
+    See the full example on GitHub.
+  </Card>
+</CardGroup>
