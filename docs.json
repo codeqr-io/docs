@@ -34,33 +34,7 @@
             ]
           },
           {
-            "group": "Conversion tracking",
-            "pages": [
-              "conversions/quickstart",
-              {
-                "group": "Tracking lead events",
-                "pages": [
-                  "conversions/leads/introduction",
-                  "conversions/leads/clerk",
-                  "conversions/leads/next-auth",
-                  "conversions/leads/supabase",
-                  "conversions/leads/auth0",
-                  "conversions/leads/appwrite"
-                ]
-              },
-              {
-                "group": "Tracking sale events",
-                "pages": [
-                  "conversions/sales/introduction",
-                  "conversions/sales/stripe",
-                  "conversions/sales/shopify"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "CodeQR Partners",
-            "pages": ["partners/quickstart", "partners/white-labeling"]
+            "group": "Conversion tracking"
           },
           {
             "group": "Integrations",
@@ -112,10 +86,6 @@
                   },
                   "sdks/client-side/variants"
                 ]
-              },
-              {
-                "group": "Embedded Dashboards",
-                "pages": ["sdks/embed/referrals", "sdks/embed/analytics"]
               }
             ]
           },
