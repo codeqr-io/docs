@@ -34,9 +34,6 @@
             ]
           },
           {
-            "group": "Conversion tracking"
-          },
-          {
             "group": "Integrations",
             "pages": ["integrations", "integrations/quickstart"]
           }
@@ -58,10 +55,6 @@
             "group": "SDKs",
             "pages": [
               "sdks/overview",
-              {
-                "group": "Server-side SDKs",
-                "pages": ["sdks/typescript"]
-              },
               {
                 "group": "Client-side SDK",
                 "pages": [
@@ -114,6 +107,14 @@
                   "api-reference/endpoint/retrieve-a-qrcode",
                   "api-reference/endpoint/retrieve-a-list-of-qrcode",
                   "api-reference/endpoint/retrieve-number-of-qrcode"
+                ]
+              },
+              {
+                "group": "Tags API",
+                "pages": [
+                  "api-reference/endpoint/create-a-tag",
+                  "api-reference/endpoint/retrieve-a-list-of-tags",
+                  "api-reference/endpoint/update-a-tag"
                 ]
               }
             ]
