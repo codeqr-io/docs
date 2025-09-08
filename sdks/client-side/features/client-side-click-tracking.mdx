@@ -112,66 +112,13 @@ Once you've done that, check if the following is true:
 
 </Steps>
 
-## Automatically fetching partner and discount data
-
-If you're using [CodeQR Partners](/partners/quickstart) with [dual-sided incentives](https://codeqr.co/help/article/dual-sided-incentives), the script will automatically fetch the partner and discount data for you when someone lands on your site via a valid referral link.
-
-This data will be stored as a JSON-stringified object in the `codeqr_partner_data` cookie in the following format:
-
-```json
-{
-  "clickId": "xxx", // unique ID of the click event
-  "partner": {
-    "id": "pn_xxx", // unique ID of the partner on CodeQR
-    "name": "John Doe", // name of the partner
-    "image": "https://example.com/john.png" // avatar of the partner
-  },
-  "discount": {
-    "id": "disc_xxx", // unique ID of the discount on CodeQR
-    "amount": 25, // discount amount (either a percentage or a fixed amount)
-    "type": "percentage", // type of the discount (either "percentage" or "fixed")
-    "maxDuration": 3 // maximum duration of the discount in months
-  }
-}
-```
-
-To access this cookie data, we recommend using a cookie library like [`js-cookie`](https://github.com/js-cookie/js-cookie) – here's an example:
-
-```js
-import Cookies from "js-cookie";
-
-const codeqrPartnerData = Cookies.get("codeqr_partner_data");
-const { partner, discount } = codeqrPartnerData ? JSON.parse(codeqrPartnerData) : {};
-
-// Display a banner that says: _"John referred you to Acme and gave you 25% off"_
-
-return (
-  <div className="flex items-center gap-2">
-    <img src={image} alt={name} className="size-6 rounded-full" />
-    <p>
-      {name} referred you to Acme and gave you {amount} {type} off
-    </p>
-  </div>
-);
-```
-
-Here's an example of how the discount banner will look like:
-
-<Frame>
-  <img
-    src="/images/codeqr-partner-data.png"
-    alt="A screenshot of the CodeQR partner data example"
-  />
-</Frame>
-
 ## Manually tracking clicks with the `trackClick()` function
 
 This is helpful for tracking clicks on:
 
 - Dynamically generated referral pages (e.g. [Tesla](https://www.tesla.com/referral/peeroke520149))
 - Dynamic user-generated content/webpages:
-  - CodeQR's public analytics dashboards (e.g. [app.codeqr.co/share/:slug](https://app.codeqr.co/share/dash_6NSA6vNm017MZwfzt8SubNSZ))
-  - Cal.com's booking pages (e.g. [cal.com/steven](https://cal.com/steven))
+  - CodeQR's public analytics dashboards (e.g. [app.codeqr.io/share/:slug](https://app.codeqr.io/share/dash_6NSA6vNm017MZwfzt8SubNSZ))
   - Tella's video pages (e.g. [tella.tv/video/:slug](https://www.tella.tv/video/cluvcfcfi00tw0fjrgizr4pw2))
 
 <Note>
