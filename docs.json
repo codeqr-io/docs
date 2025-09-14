@@ -56,6 +56,10 @@
             "pages": [
               "sdks/overview",
               {
+                "group": "Server-side SDKs",
+                "pages": ["sdks/typescript"]
+              },
+              {
                 "group": "Client-side SDK",
                 "pages": [
                   "sdks/client-side/introduction",
