@@ -28,11 +28,11 @@ yarn add codeqr zod # zod is a peer dependency
 Here's how you can use the CodeQR TypeScript SDK to create a link and retrieve click analytics in timeseries format for it:
 
 ```typescript
-import { CodeQR } from "codeqr";
+import CodeQR from "@codeqr/ts";
 
 // Initialize the CodeQR SDK with your API key
 const codeqr = new CodeQR({
-  token: process.env.CODEQR_API_KEY, // optional, defaults to CODEQR_API_KEY
+  apiKey: process.env.CODEQR_API_KEY, // optional, defaults to CODEQR_API_KEY
 });
 
 // Create a new link

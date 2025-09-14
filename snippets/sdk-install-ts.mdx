@@ -36,10 +36,10 @@ Install the [CodeQR TypeScript SDK](/sdks/typescript) using your preferred packa
 Then, initialize the CodeQR TypeScript SDK with your API key.
 
 ```typescript lib/codeqr.ts
-import { CodeQR } from "codeqr";
+import CodeQR from "@codeqr/ts";
 
 export const codeqr = new CodeQR({
-  token: process.env.CODEQR_API_KEY, // optional, defaults to CODEQR_API_KEY env variable
+  apiKey: process.env.CODEQR_API_KEY, // optional, defaults to CODEQR_API_KEY env variable
 });
 ```
 

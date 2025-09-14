@@ -1,0 +1,477 @@
+---
+title: "CodeQR Conversions Overview"
+"og:title": "CodeQR Conversions - Rastreamento de Conversões e Analytics"
+description: "Aprenda como usar o recurso CodeQR Conversions para transformar seus QR Codes e links curtos em um motor completo de atribuição e analytics de conversões."
+keywords: "codeqr conversions, rastreamento conversões, analytics qr code, atribuição marketing, funil conversão, leads, vendas, métricas"
+---
+
+import LeadsIntro from "/snippets/leads-intro.mdx";
+import SaleAttributes from "/snippets/sale-attributes.mdx";
+import ViewConversions from "/snippets/view-conversions.mdx";
+
+# CodeQR Conversions Overview
+
+Aprenda como você pode usar o recurso CodeQR Conversions para entender como seus cliques em QR Codes e links curtos estão se convertendo em leads e receita.
+
+<Note>
+  O rastreamento de conversões requer um plano
+  [Business](https://codeqr.io/pricing) ou superior.
+</Note>
+
+Dados são o sangue vital de qualquer negócio. Eles ajudam você a entender seus clientes, tomar decisões baseadas em dados e impulsionar o crescimento.
+
+Sempre que você executa uma campanha de marketing, apenas rastrear cliques em links não é suficiente para pintar um quadro completo do seu funil de aquisição de clientes.
+
+Você precisa rastrear como esses cliques estão se convertendo em cadastros e vendas para poder determinar quais campanhas/canais estão performando melhor.
+
+**É aqui que o CodeQR Conversions entra.**
+
+Com o CodeQR Conversions, você pode transformar qualquer QR Code ou link curto que você cria na CodeQR em um motor completo de atribuição. Isso permite que você entenda como seus links estão se traduzindo em usuários reais e dólares de receita.
+
+<Frame>
+  <img
+    src="https://assets.codeqr.io/blog/introducing-codeqr-conversions.webp"
+    alt="CodeQR Conversions - Analytics de conversões"
+    width="1200"
+    height="675"
+  />
+</Frame>
+
+## Como funciona o CodeQR Conversions?
+
+O CodeQR Conversions transforma seus QR Codes, links curtos e páginas (forms) em ferramentas poderosas de rastreamento de conversões. O processo funciona em 3 etapas principais:
+
+### 1. Criação e Configuração
+
+Primeiro, você cria um QR Code, link curto ou página (form) na plataforma CodeQR e habilita o monitoramento de conversões:
+
+- **QR Codes**: Ideais para campanhas offline, materiais impressos, eventos e embalagens
+- **Links Curtos**: Perfeitos para campanhas digitais, e-mails, redes sociais e SMS
+- **Páginas (Forms)**: Ótima opção para captura de leads direta na plataforma
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-click-event.png"
+    alt="Diagrama mostrando como QR Codes, links e páginas geram eventos de conversão"
+  />
+</Frame>
+
+### 2. Interação do Usuário
+
+Quando alguém interage com seu QR Code, link ou página, a CodeQR gera automaticamente um identificador único (`cq_id`) que é armazenado como cookie no navegador do usuário:
+
+- **Escaneamento de QR Code**: Usuário escaneia o QR Code com a câmera do celular
+- **Clique em Link Curto**: Usuário clica no link em e-mails, redes sociais ou outros canais
+- **Visualização de Página**: Usuário acessa diretamente uma página/form da CodeQR
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-lead-event.png"
+    alt="Um diagrama mostrando como eventos de lead são rastreados no funil de conversão"
+  />
+</Frame>
+### 3. Rastreamento de Conversões
+
+Quando o usuário realiza uma ação de conversão no seu site ou plataforma (cadastro, compra, etc.), o sistema detecta o cookie `cq_id` e atribui a conversão ao QR Code, link ou página original.
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-lead-event.png"
+    alt="Diagrama mostrando como eventos de lead são rastreados e atribuídos"
+  />
+</Frame>
+
+Com esse sistema, você pode rastrear todo o funil de conversão - desde a primeira interação até a venda final - e entender exatamente qual QR Code, link ou página está gerando mais resultados.
+
+## Como as conversões são rastreadas?
+
+O CodeQR Conversions funciona através de um sistema inteligente de cookies e rastreamento de eventos. Aqui está como funciona na prática:
+
+### Etapa 1: Geração do Identificador Único (cq_id)
+
+Quando um usuário interage com seu QR Code, link curto ou página da CodeQR, nosso sistema gera automaticamente um identificador único (`cq_id`) que é passado como parâmetro na URL de destino.
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-click-event.png"
+    alt="Diagrama mostrando como o cq_id é gerado e armazenado"
+  />
+</Frame>
+
+**Exemplos de URLs com cq_id:**
+
+- `seusite.com?cq_id=abc123xyz`
+- `loja.com.br/produto?cq_id=def456uvw`
+- `app.exemplo.com/cadastro?cq_id=ghi789rst`
+
+### Etapa 2: Instalação do Script de Analytics
+
+Para capturar e armazenar o `cq_id`, você precisa instalar nosso script `@codeqr/analytics` no seu site ou plataforma. Você pode fazer isso de duas formas:
+
+**Opção 1: Via CDN (mais simples)**
+
+```html
+<script src="https://cdn.codeqr.io/analytics.js"></script>
+```
+
+**Opção 2: Via NPM**
+
+```bash
+npm i @codeqr/analytics
+```
+
+Este script detecta automaticamente o parâmetro `cq_id` na URL e o armazena como um cookie de primeira parte no domínio do seu site, permitindo que você rastreie conversões mesmo quando o usuário navega por diferentes páginas.
+
+### Etapa 3: Configuração dos Eventos de Conversão
+
+Agora é hora de configurar o rastreamento de conversões no seu site ou plataforma. **É importante destacar que você, como desenvolvedor ou dono do site, deve configurar e chamar os eventos quando houver uma ação de conversão.**
+
+Quando um usuário realiza uma ação de conversão (cadastro, compra, download, etc.), você deve:
+
+1. **Verificar se o cookie `cq_id` está presente**
+2. **Enviar o evento de conversão para a CodeQR**
+3. **Limpar o cookie após o envio**
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-lead-event.png"
+    alt="Diagrama mostrando como eventos de conversão são enviados e processados"
+  />
+</Frame>
+
+**Exemplo prático - Rastreamento de Cadastro (Lead):**
+
+```typescript
+// Exemplo: Quando um usuário se cadastra no seu site
+import CodeQR from "@codeqr/ts";
+
+const codeqr = new CodeQR({
+  apiKey: process.env.CODEQR_API_KEY,
+});
+
+// Função chamada quando um usuário se cadastra
+async function handleUserSignup(userData) {
+  // 1. Verificar se existe o cookie cq_id
+  const cq_id = getCookie("cq_id"); // função para ler o cookie
+
+  if (cq_id) {
+    // 2. Enviar evento de lead para a CodeQR
+    await codeqr.track.lead({
+      clickId: cq_id,
+      eventName: "Cadastro",
+      externalId: userData.id,
+      customerName: userData.name,
+      customerEmail: userData.email,
+    });
+
+    // 3. Limpar o cookie após o envio
+    deleteCookie("cq_id");
+  }
+}
+```
+
+**Exemplo prático - Rastreamento de Venda:**
+
+```typescript
+// Exemplo: Quando um usuário faz uma compra no seu site
+async function handlePurchase(purchaseData) {
+  // 1. Enviar evento de venda para a CodeQR
+  await codeqr.track.sale({
+    externalId: purchaseData.customerId, // ID do cliente (mesmo usado no lead)
+    amount: purchaseData.amount, // valor em centavos
+    paymentProcessor: "stripe", // ou "pagseguro", "mercadopago", etc.
+    eventName: "Compra de produto",
+    currency: "brl",
+    invoiceId: purchaseData.invoiceId, // ID da nota fiscal (opcional)
+  });
+}
+```
+
+**Fluxo Completo de Conversão:**
+
+1. **Usuário escaneia QR Code** → `cq_id` é gerado e armazenado
+2. **Usuário se cadastra** → Evento de **lead** é enviado com `cq_id`
+3. **Usuário faz compra** → Evento de **venda** é enviado (sem `cq_id`, pois já foi limpo)
+4. **CodeQR conecta** automaticamente a venda ao QR Code original através do `externalId`
+
+Ao enviar um evento de lead, você pode incluir as seguintes propriedades:
+
+| Propriedade      | Descrição                                                                                                             | Obrigatório |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------- | :---------- |
+| `clickId`        | O parâmetro único `cq_id` ao qual o evento de conversão de lead é atribuído.                                          | **Sim**     |
+| `eventName`      | O nome do evento. Exemplo: "Cadastro".                                                                                | **Sim**     |
+| `externalId`     | O ID único do cliente no seu sistema. Será usado para identificar e atribuir todos os eventos futuros a este cliente. | **Sim**     |
+| `customerEmail`  | O endereço de e-mail do cliente. Se não for passado, um endereço de e-mail aleatório será gerado.                     | Não         |
+| `customerName`   | O nome do cliente. Se não for passado, um nome aleatório será gerado (ex: "Big Red Caribou").                         | Não         |
+| `customerAvatar` | A URL do avatar do cliente. Se não for passado, uma URL de avatar aleatória será gerada.                              | Não         |
+
+O evento de lead servirá como a fonte da verdade para a identidade do cliente e de qual link ele veio. Isso significa que todas as ações subsequentes executadas pelo cliente (ex: fazer upgrade do plano, comprar um produto) serão automaticamente atribuídas ao link original.
+
+### Etapa 4: Visualização dos Dados no Painel
+
+Após configurar o rastreamento, todos os dados de conversão aparecem automaticamente no seu painel de Analytics e Events da CodeQR, onde você pode:
+
+- **Ver métricas em tempo real**: Clicks/Scans, Leads e Vendas
+- **Analisar o funil de conversão**: Entender onde os usuários param no processo
+- **Visualizar eventos individuais**: Ver cada conversão com detalhes completos
+- **Exportar relatórios**: Gerar dados para análises mais profundas
+
+<Frame>
+  <img
+    className="rounded-lg border border-gray-100"
+    src="https://assets.codeqr.io/help/conversion-sale-event.png"
+    alt="Diagrama mostrando como visualizar dados de conversão no painel"
+  />
+</Frame>
+
+## Integrações para Rastreamento de Vendas
+
+Para rastrear vendas, você pode usar nossas integrações nativas ou implementar manualmente:
+
+### Integração Stripe (Recomendado)
+
+Configure em poucos cliques e rastreie vendas automaticamente:
+
+1. Instale nossa integração Stripe no seu workspace CodeQR
+2. Configure o `codeqrCustomerId` no metadata das sessões de checkout
+3. As vendas são rastreadas automaticamente via webhooks
+
+### Integração Shopify
+
+Para lojas online:
+
+1. Instale o app CodeQR Shopify na sua loja
+2. As vendas são detectadas e rastreadas automaticamente
+3. Inclui rastreamento de leads + vendas
+
+### Implementação Manual
+
+Para outros processadores de pagamento:
+
+```typescript
+// Exemplo: Rastreamento manual de venda
+await codeqr.track.sale({
+  externalId: "cliente_123",
+  amount: 5900, // em centavos
+  paymentProcessor: "pagseguro",
+  eventName: "Compra de produto",
+  currency: "brl",
+});
+```
+
+<SaleAttributes />
+
+## Como visualizar as conversões?
+
+Todas as suas conversões rastreadas aparecerão no seu dashboard de Analytics. Fornecemos 3 visualizações diferentes para ajudá-lo a entender suas conversões:
+
+<ViewConversions />
+
+## O que você pode construir com CodeQR Conversions?
+
+Existem vários casos de uso para CodeQR Conversions. Aqui estão alguns exemplos:
+
+### 1. Programas de afiliados/referência com marca branca
+
+Com o CodeQR Partners (construído sobre o CodeQR Conversions), você pode rastrear o desempenho dos seus links de afiliados/referência e exibir os analytics em tempo real diretamente dentro da sua aplicação.
+
+Por exemplo, aqui está uma captura de tela do nosso próprio programa de referência da CodeQR – alimentado pelo CodeQR Conversions – que vive dentro do dashboard da CodeQR:
+
+<Frame>
+  <img
+    src="/images/conversions/funnel-chart.png"
+    alt="Demo do dashboard de Referências da CodeQR"
+  />
+</Frame>
+
+Com o recurso de webhooks em tempo real da CodeQR, você também pode construir estruturas de incentivo duplo personalizadas – ex: recompensar o referenciador com 100 créditos adicionais quando um novo usuário se cadastra com o link dele.
+
+### 2. Rastreamento de atribuição de campanhas de influenciadores
+
+Você também pode usar o CodeQR Partners para entender melhor o desempenho das suas campanhas de influenciadores – não apenas o número de cliques, mas também o número de cadastros/compras.
+
+Você pode então usar os dados para tomar decisões baseadas em dados sobre quais influenciadores trabalhar e como melhor alocar seu orçamento para maximizar seu ROI.
+
+### 3. Campanhas offline e físicas (Foco Principal)
+
+O CodeQR Conversions é especialmente poderoso para campanhas que conectam o mundo físico ao digital através de QR Codes:
+
+- **QR Codes em materiais impressos**: Rastreie conversões de flyers, cartões de visita, outdoors, banners
+- **Eventos e feiras**: Meça o impacto de QR Codes em stands, materiais promocionais e credenciais
+- **Embalagens de produtos**: Entenda como clientes interagem com QR Codes em produtos e embalagens
+- **Pontos de venda**: QR Codes em mesas de restaurantes, vitrines de lojas e materiais promocionais
+- **Marketing de guerrilha**: QR Codes em adesivos, pôsteres e materiais de rua
+
+### 4. Campanhas digitais com links curtos
+
+Transforme seus links curtos em ferramentas de atribuição:
+
+- **E-mail marketing**: Rastreie quais campanhas de e-mail geram mais conversões
+- **Redes sociais**: Meça o ROI de posts no Instagram, Facebook, LinkedIn
+- **SMS e WhatsApp**: Entenda a efetividade de campanhas via mensagens
+- **Influenciadores**: Rastreie conversões de links compartilhados por influenciadores
+
+## Casos de uso por setor
+
+### E-commerce
+
+- **QR Codes em embalagens**: Rastreie conversões de produtos físicos para vendas online
+- **Links em campanhas digitais**: Meça ROI de anúncios e e-mail marketing
+- **Páginas de produtos**: Capture leads direto na plataforma CodeQR
+
+### SaaS
+
+- **QR Codes em eventos**: Rastreie conversões de feiras e conferências
+- **Links em conteúdo**: Meça efetividade de artigos e webinars
+- **Trials para conversões**: Entenda qual canal gera mais assinaturas pagas
+
+### Educação
+
+- **QR Codes em materiais**: Rastreie conversões de livros, apostilas e materiais físicos
+- **Links em campanhas**: Meça efetividade de anúncios educacionais
+- **Captura de leads**: Use páginas CodeQR para cadastros de cursos
+
+### Saúde
+
+- **QR Codes em consultórios**: Rastreie agendamentos e cadastros de pacientes
+- **Links em campanhas**: Meça conversões de marketing médico
+- **Materiais informativos**: QR Codes em folders e cartões de visita
+
+## Benefícios do CodeQR Conversions
+
+### 1. **Foco em QR Codes**
+
+- Especializado em rastreamento de QR Codes para campanhas offline
+- Conecta o mundo físico ao digital de forma inteligente
+- Ideal para materiais impressos, eventos e pontos de venda
+
+### 2. **Atribuição Completa**
+
+- Rastreie todo o funil: escaneamento → lead → venda
+- Entenda qual QR Code, link ou página gera mais receita
+- Tome decisões baseadas em dados reais de conversão
+
+### 3. **Integração Simples**
+
+- Script CDN em uma linha de código
+- SDKs nativos para as principais plataformas
+- Integrações prontas com Stripe e Shopify
+
+### 4. **Analytics em Tempo Real**
+
+- Visualize conversões conforme acontecem
+- Dashboards intuitivos e fáceis de usar
+- Relatórios detalhados de performance por QR Code
+
+### 5. **Flexibilidade Total**
+
+- Funciona com QR Codes, links curtos e páginas
+- Suporte a múltiplas moedas
+- Customização completa de eventos
+
+## Começando com CodeQR Conversions
+
+Para começar com o CodeQR Conversions, confira nosso guia de início rápido:
+
+<Card
+  title="Guia de Início Rápido - CodeQR Conversions"
+  icon="rocket"
+  href="/conversions/quickstart"
+>
+  Aprenda como configurar o rastreamento de conversões em poucos minutos.
+</Card>
+
+## Recursos Relacionados
+
+### Configuração e Integração
+
+<CardGroup cols={2}>
+  <Card
+    title="SDK Client-Side (@codeqr/analytics)"
+    icon="code"
+    href="/sdks/client-side/introduction"
+  >
+    Instale o script de analytics para capturar o cq_id automaticamente.
+  </Card>
+  <Card
+    title="Rastreamento de Leads"
+    icon="users"
+    href="/conversions/leads/introduction"
+  >
+    Aprenda como rastrear eventos de lead com diferentes provedores de
+    autenticação.
+  </Card>
+  <Card
+    title="Rastreamento de Vendas"
+    icon="credit-card"
+    href="/conversions/sales/introduction"
+  >
+    Configure o rastreamento de vendas com Stripe, Shopify e outros
+    processadores.
+  </Card>
+  <Card
+    title="Webhooks em Tempo Real"
+    icon="zap"
+    href="/concepts/webhooks/introduction"
+  >
+    Configure webhooks para receber eventos de conversão em tempo real.
+  </Card>
+</CardGroup>
+
+### Criação de Recursos
+
+<CardGroup cols={2}>
+  <Card
+    title="Criar QR Code via API"
+    icon="qr-code"
+    href="/api-reference/endpoint/create-a-qrcode"
+  >
+    Aprenda como criar QR Codes programaticamente com conversões habilitadas.
+  </Card>
+  <Card
+    title="Criar Link via API"
+    icon="link"
+    href="/api-reference/endpoint/create-a-link"
+  >
+    Crie links curtos com rastreamento de conversões através da API.
+  </Card>
+</CardGroup>
+
+### Analytics e Visualização
+
+<CardGroup cols={1}>
+  <Card title="Analytics da CodeQR" icon="bar-chart" href="/analytics">
+    Entenda como visualizar e analisar seus dados de conversão no painel.
+  </Card>
+</CardGroup>
+
+## Perguntas Frequentes
+
+### O que é necessário para usar o CodeQR Conversions?
+
+Você precisa de um plano [Business](https://codeqr.io/pricing) ou superior da CodeQR para acessar o rastreamento de conversões.
+
+### Posso rastrear conversões em links existentes?
+
+Sim! Você pode habilitar o rastreamento de conversões em links existentes a qualquer momento através do Link Builder ou da API.
+
+### O CodeQR Conversions funciona com QR Codes estáticos?
+
+Sim, o CodeQR Conversions funciona com qualquer tipo de QR Code criado na plataforma CodeQR, incluindo QR Codes estáticos e dinâmicos.
+
+### Posso integrar com outros processadores de pagamento além do Stripe e Shopify?
+
+Sim! Você pode usar nossos SDKs do lado do servidor para integrar com qualquer processador de pagamento ou sistema de e-commerce.
+
+### Os dados de conversão são seguros?
+
+Sim, todos os dados são criptografados e armazenados de forma segura. A CodeQR é compatível com as principais regulamentações de privacidade de dados.
+
+---
+
+**Pronto para transformar seus links em um motor de atribuição?** [Comece agora](/conversions/quickstart) com o CodeQR Conversions e veja como seus cliques se convertem em receita real.

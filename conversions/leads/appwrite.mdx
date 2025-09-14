@@ -151,7 +151,7 @@ Next, configure Appwrite to track lead conversion events during the sign up proc
     import { CodeQR } from 'codeqr';
 
     const codeqr = new CodeQR({
-      token: process.env.NEXT_CODEQR_API_KEY
+      apiKey: process.env.NEXT_CODEQR_API_KEY
     });
 
     export function addCodeQRLead(user: Models.User<Models.Preferences>, cq_id: string) {
