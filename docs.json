@@ -35,7 +35,18 @@
           },
           {
             "group": "Integrations",
-            "pages": ["integrations", "integrations/quickstart"]
+            "pages": [
+              "integrations",
+              "integrations/quickstart",
+              {
+                "group": "Webhooks",
+                "pages": [
+                  "concepts/webhooks/introduction",
+                  "concepts/webhooks/event-types",
+                  "concepts/webhooks/verify-webhook-requests"
+                ]
+              }
+            ]
           }
         ]
       },
@@ -248,7 +259,7 @@
     },
     {
       "source": "/api-reference/endpoint/retrieve-a-list-of-projects",
-      "destination": "/api-reference/endpoint/retrieve-a-list-of-workspaces"
+      "destination": "/api-reference/endpoint/retrieve-a-list-of-projects"
     },
     {
       "source": "/api-reference/endpoint/edit-a-link",

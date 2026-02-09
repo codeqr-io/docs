@@ -85,7 +85,7 @@ And that's it – you're all set! You can now sit back, relax, and watch your c
 
 ## Currency conversion support
 
-For simplicity, CodeQR records all sales in the default currency of your CodeQR workspace. This means that if you pass a different currency, it will be automatically converted to USD for reporting consistency – using the latest foreign exchange rates.
+For simplicity, CodeQR records all sales in the default currency of your CodeQR project. This means that if you pass a different currency, it will be automatically converted to USD for reporting consistency – using the latest foreign exchange rates.
 
 ```typescript TypScript
 await codeqr.track.sale({
@@ -98,6 +98,6 @@ await codeqr.track.sale({
 ```
 
 <Note>
-  The default currency for all CodeQR workspaces is currently set to `USD`. We
+  The default currency for all CodeQR projects is currently set to `USD`. We
   will add the ability to customize that in the future.
 </Note>

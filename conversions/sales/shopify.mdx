@@ -41,7 +41,7 @@ First, you'll need to enable conversion tracking for your CodeQR links to be abl
 
 There are a few ways to do this:
 
-1. [On a workspace-level](/conversions/quickstart#option-1-on-a-workspace-level)
+1. [On a project-level](/conversions/quickstart#option-1-on-a-project-level)
 2. [On a link-level](/conversions/quickstart#option-2-on-a-link-level)
 3. [Via the API](/conversions/quickstart#option-3-via-the-api)
 
@@ -61,17 +61,17 @@ There are a few ways to do this:
   
 </Step>
 
-<Step title="Connect Shopify to your CodeQR workspace">
-  After installation, you will be prompted to link one of your CodeQR workspaces to
+<Step title="Connect Shopify to your CodeQR project">
+  After installation, you will be prompted to link one of your CodeQR projects to
   the app. Select **Connect** to establish a connection between your
-  Shopify store and your CodeQR workspace.
+  Shopify store and your CodeQR project.
 
-You'll be redirected back to your Shopify store after this step and you'll see a list of the links in your CodeQR workspace:
+You'll be redirected back to your Shopify store after this step and you'll see a list of the links in your CodeQR project:
 
 <Frame>
   <img
     src="/images/shopify/shopify-links-table.png"
-    alt="The list of links in your CodeQR workspace"
+    alt="The list of links in your CodeQR project"
   />
 </Frame>
 
@@ -115,7 +115,7 @@ To activate the CodeQR Analytics script, follow these steps:
 CodeQR’s Shopify integration will automatically forward the following events to CodeQR:
 
 - `orders/paid`: This event is triggered when a customer completes a purchase on your Shopify store. It is utilized to track sales that originate from CodeQR links.
-- `app/uninstalled`: This event occurs when the app is uninstalled from a store. It is used to remove the integration from your CodeQR workspace.
+- `app/uninstalled`: This event occurs when the app is uninstalled from a store. It is used to remove the integration from your CodeQR project.
 
 In addition to the above, we also subscribe to the mandatory compliance webhook topics that are required by Shopify.
 

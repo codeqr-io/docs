@@ -4,7 +4,7 @@
 
 <ParamField body="domain" type="string">
   The domain of the short link. If not provided, the primary domain for the
-  workspace will be used (or `codeqr.link` if the workspace has no domains).
+  project will be used (or `codeqr.link` if the project has no domains).
 </ParamField>
 
 <ParamField body="key" type="string">
@@ -33,7 +33,7 @@
 </ParamField>
 
 <ParamField body="identifier" type="string | null">
-  The identifier of the short link that is unique across your workspace. If set,
+  The identifier of the short link that is unique across your project. If set,
   it can be used to identify your short link for client-side click tracking.
 </ParamField>
 
@@ -74,18 +74,18 @@
 </ParamField>
 
 <ParamField body="title" type="string | null">
-  The title of the short link generated via `api.codeqr.io/metatags`. Will be used
-  for Custom Social Media Cards if proxy is true.
-</ParamField>
-
-<ParamField body="description" type="string | null">
-  The description of the short link generated via `api.codeqr.io/metatags`. Will be
+  The title of the short link generated via `api.codeqr.io/metatags`. Will be
   used for Custom Social Media Cards if proxy is true.
 </ParamField>
 
+<ParamField body="description" type="string | null">
+  The description of the short link generated via `api.codeqr.io/metatags`. Will
+  be used for Custom Social Media Cards if proxy is true.
+</ParamField>
+
 <ParamField body="image" type="string | null">
-  The image of the short link generated via `api.codeqr.io/metatags`. Will be used
-  for Custom Social Media Cards if proxy is true.
+  The image of the short link generated via `api.codeqr.io/metatags`. Will be
+  used for Custom Social Media Cards if proxy is true.
 </ParamField>
 
 <ParamField body="video" type="string | null">

@@ -71,23 +71,23 @@ Once the app is installed, click on **Continue to app settings** to finish the i
 
 </Step>
 
-<Step title="Connect Stripe to your CodeQR workspace">
+<Step title="Connect Stripe to your CodeQR project">
 
-In the app settings page, click on **Connect workspace** to connect your Stripe account with your CodeQR workspace.
+In the app settings page, click on **Connect project** to connect your Stripe account with your CodeQR project.
 
 <Frame>
   <img
-    src="/images/stripe/stripe-app-connect-workspace.png"
+    src="/images/stripe/stripe-app-connect-project.png"
     alt="Connect Stripe to CodeQR"
   />
 </Frame>
 
-This will redirect you to the [CodeQR OAuth flow](/integrations/quickstart), where you can select the CodeQR workspace you want to connect to your Stripe account.
+This will redirect you to the [CodeQR OAuth flow](/integrations/quickstart), where you can select the CodeQR project you want to connect to your Stripe account.
 
 <Frame>
   <img
-    src="/images/stripe/select-codeqr-workspace.png"
-    alt="Select the CodeQR workspace you want to connect to your Stripe account"
+    src="/images/stripe/select-codeqr-project.png"
+    alt="Select the CodeQR project you want to connect to your Stripe account"
   />
 </Frame>
 
@@ -416,7 +416,7 @@ If you're using [Stripe's Adaptive Pricing](https://docs.stripe.com/payments/che
 }
 ```
 
-If you're not using Stripe Adaptive Pricing, CodeQR will record the sale amount in the default currency of your CodeQR workspace. This means that if you pass a different currency, it will be automatically converted to USD for reporting consistency – using the latest foreign exchange rates.
+If you're not using Stripe Adaptive Pricing, CodeQR will record the sale amount in the default currency of your CodeQR project. This means that if you pass a different currency, it will be automatically converted to USD for reporting consistency – using the latest foreign exchange rates.
 
 ```json checkout.session.completed
 // Stripe checkout.session.completed event payload
@@ -437,8 +437,8 @@ If you're not using Stripe Adaptive Pricing, CodeQR will record the sale amount 
 ```
 
 <Note>
-  The default currency for all CodeQR workspaces is currently set to `USD`. We will
-  add the ability to customize that in the future.
+  The default currency for all CodeQR projects is currently set to `USD`. We
+  will add the ability to customize that in the future.
 </Note>
 
 ## View conversion results

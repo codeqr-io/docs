@@ -16,18 +16,26 @@ Webhooks are a great way to get real-time notifications on events that happen in
 }
 ```
 
-There are two types of webhook events you can listen to:
+There are four types of webhook events you can listen to:
 
-- [**Workspace-level events**](#project-level-events)
+- [**Project-level events**](#project-level-events)
 - [**Link-level events**](#link-level-events)
+- [**QR Code-level events**](#qr-code-level-events)
+- [**Page-level events**](#page-level-events)
 
-## Workspace-level events
+## Project-level events
 
 These events are triggered in the context of your entire project:
 
 - [`link.created`](#link-created)
 - [`link.updated`](#link-updated)
 - [`link.deleted`](#link-deleted)
+- [`qrcode.created`](#qrcode-created)
+- [`qrcode.updated`](#qrcode-updated)
+- [`qrcode.deleted`](#qrcode-deleted)
+- [`page.created`](#page-created)
+- [`page.updated`](#page-updated)
+- [`page.deleted`](#page-deleted)
 - [`lead.created`](#lead-created)
 - [`sale.created`](#sale-created)
 - [`partner.enrolled`](#partner-enrolled)
@@ -209,14 +217,89 @@ Here's an example payload:
 ```
 </Accordion>
 
+### `qrcode.created`
+
+This event is triggered when a new QR code is created in your CodeQR project. The event payload contains the created QR code's details (under `data.qrcode`).
+
+<Accordion title="Sample payload">
+```json qrcode.created
+{
+  "id": "evt_KleiO4HBwZFbO1vZLWIPZ2AtX",
+  "event": "qrcode.created",
+  "createdAt": "2024-08-26T16:41:52.346Z",
+  "data": {
+    "qrcode": {
+      "id": "cm0pie2xy0007zayvaghkb7d6",
+      "domain": "expol.ink",
+      "key": "rXUSTPx1tic3-qr",
+      "archived": false,
+      "static": false,
+      "type": "url",
+      "url": "https://app.codeqr.io/",
+      "userId": "clv4ckurp0000nircotd5umkn",
+      "projectId": "cm0bfj5eg000045ruzb5o8tar",
+      "scans": 1,
+      "shortLink": "https://expol.ink/rXUSTPx1tic3-qr",
+      "createdAt": "2024-09-05T16:35:54.597Z",
+      "updatedAt": "2024-09-05T16:35:54.597Z"
+    }
+  }
+}
+```
+</Accordion>
+
+### `qrcode.updated`
+
+This event is triggered when a QR code is updated in your CodeQR project. The event payload contains the updated QR code's details (under `data.qrcode`).
+
+### `qrcode.deleted`
+
+This event is triggered when a QR code is deleted in your CodeQR project. The event payload contains the deleted QR code's details (under `data.qrcode`).
+
+### `page.created`
+
+This event is triggered when a new page is created in your CodeQR project. The event payload contains the created page's details (under `data.page`).
+
+<Accordion title="Sample payload">
+```json page.created
+{
+  "id": "evt_KleiO4HBwZFbO1vZLWIPZ2AtX",
+  "event": "page.created",
+  "createdAt": "2024-08-26T16:41:52.346Z",
+  "data": {
+    "page": {
+      "id": "cm0snvcxr002jp80474b2dckg",
+      "domain": "expol.ink",
+      "key": "p/pHs20VCe8V",
+      "name": "Deixe seu feedback",
+      "type": "feedback",
+      "projectId": "cm0bfj5eg000045ruzb5o8tar",
+      "userId": "clv4ckurp0000nircotd5umkn",
+      "views": 1,
+      "createdAt": "2024-09-07T21:32:37.309Z",
+      "updatedAt": "2024-09-07T21:32:51.471Z"
+    }
+  }
+}
+```
+</Accordion>
+
+### `page.updated`
+
+This event is triggered when a page is updated in your CodeQR project. The event payload contains the updated page's details (under `data.page`).
+
+### `page.deleted`
+
+This event is triggered when a page is deleted in your CodeQR project. The event payload contains the deleted page's details (under `data.page`).
+
 ### `lead.created`
 
 This event is triggered when a [new lead is created](/api-reference/endpoint/track-lead) via [CodeQR Conversions](/conversions/quickstart). The event payload contains the following:
 
 - `eventName`: The name of the event that was tracked.
 - `customer`: Details about the customer that signed up.
-- `click`: Details about the click event that led to the lead event.
-- `link`: Details about the referral link that the lead event is associated with.
+- `interaction`: The click/scan/view event that led to the lead (same shape as `data.interaction` for link.clicked, qrcode.scanned, page.visited).
+- `link` / `qrcode` / `page`: Details about the referral resource the lead is associated with, when applicable.
 
 Here's an example payload:
 
@@ -234,7 +317,7 @@ Here's an example payload:
       "email": "john@example.com",
       "avatar": "https://example.com/john.jpeg"
     },
-    "click": {
+    "interaction": {
       "id": "d0UtZqE0BZuBPrJS",
       "url": "https://github.com/codeqr-io/codeqr",
       "ip": "63.141.57.109",
@@ -298,10 +381,11 @@ Here's an example payload:
 
 This event is triggered when a [new sale is tracked](/api-reference/endpoint/track-sale) via [CodeQR Conversions](/conversions/quickstart). The event payload contains the following:
 
-- `eventName`: The name of the event that was tracked.
+- `eventName`: Optional; the name of the event that was tracked.
 - `customer`: Details about the customer that made the purchase.
-- `click`: Details about the click event that led to the sale event.
-- `link`: Details about the referral link that the sale event is associated with.
+- `interaction`: Optional; the click/scan/view event that led to the sale (when available; e.g. not sent from Stripe checkout).
+- `link` / `qrcode` / `page`: Details about the referral resource the sale is associated with, when applicable.
+- `sale`: Amount, currency, payment processor, invoice ID.
 
 Here's an example payload:
 
@@ -319,7 +403,7 @@ Here's an example payload:
       "email": "john@example.com",
       "avatar": "https://example.com/john.jpeg"
     },
-    "click": {
+    "interaction": {
       "id": "d0UtZqE0BZuBPrJS",
       "url": "https://github.com/codeqr-io/codeqr",
       "ip": "63.141.57.109",
@@ -437,6 +521,17 @@ Here's an example payload:
 
     </Accordion>
 
+## Payload field: `interaction`
+
+**"Interaction" is not an event type.** It is a field inside the `data` object that we send for click, scan, and view events. We always use the same key **`data.interaction`** and the same structure (the click-event shape: timestamp, clickId, url, ip, continent, country, city, device, browser, os, ua, bot, qr, referer, etc.) for:
+
+- **Link-level** `link.clicked` — `data.interaction` (click event) + `data.link`
+- **QR Code-level** `qrcode.scanned` — `data.interaction` (scan event, same shape) + `data.qrcode`
+- **Page-level** `page.visited` — `data.interaction` (view event, same shape) + optionally `data.page`
+- **Project-level** `lead.created` — `data.interaction` (the click that led to the lead) + `data.customer`, `data.link` / `data.qrcode` / `data.page`
+
+We do **not** send `data.click`, `data.scan`, or `data.view`; we send **`data.interaction`** for all of these. We do not send a separate webhook event named "interaction". Only the event types listed in this document are sent.
+
 ## Link-level events
 
 Due to the high volume nature of these events, these events are scoped to a specific link.
@@ -445,7 +540,7 @@ This means that you need to specify the link when creating a webhook – though
 
 ### `link.clicked`
 
-This event is triggered when a user clicks on a link. The event payload contains all the details about the click event.
+This event is triggered when a user clicks on a link. The event payload contains `data.interaction` (the click event) and `data.link` (full link details).
 
 Here's an example payload:
 
@@ -456,7 +551,8 @@ Here's an example payload:
   "event": "link.clicked",
   "createdAt": "2024-08-30T10:16:13.149Z",
   "data": {
-    "click": {
+    "eventName": "Link clicked",
+    "interaction": {
       "timestamp": "2024-08-30T10:16:12.124Z",
       "clickId": "d0UtZqE0BZuBPrJS",
       "url": "https://github.com/codeqr-io/codeqr",
@@ -511,6 +607,98 @@ Here's an example payload:
       "saleAmount": 200000,
       "createdAt": "2024-08-29T13:03:59.098Z",
       "updatedAt": "2024-08-30T10:16:12.126Z"
+    }
+  }
+}
+```
+</Accordion>
+
+## QR Code-level events
+
+Due to the high volume nature of these events, they are scoped to a specific QR code. You need to specify the QR code(s) when creating a webhook.
+
+### `qrcode.scanned`
+
+This event is triggered when a user scans a QR code. The event payload contains `data.interaction` (the scan event, same shape as click event) and `data.qrcode` (full QR code details).
+
+<Accordion title="Sample payload">
+```json qrcode.scanned
+{
+  "id": "evt_b9ywgxWqai2glUpCQjclB17kM",
+  "event": "qrcode.scanned",
+  "createdAt": "2024-08-30T10:16:13.149Z",
+  "data": {
+    "eventName": "QR code scanned",
+    "interaction": {
+      "timestamp": "2024-08-30T10:16:12.124Z",
+      "clickId": "d0UtZqE0BZuBPrJS",
+      "url": "https://github.com/deusdete/codeqr",
+      "ip": "63.141.57.109",
+      "continent": "NA",
+      "country": "US",
+      "city": "San Francisco",
+      "device": "Desktop",
+      "browser": "Chrome",
+      "os": "Mac OS",
+      "bot": false,
+      "qr": false,
+      "referer": "(direct)"
+    },
+    "qrcode": {
+      "id": "cm0pie2xy0007zayvaghkb7d6",
+      "domain": "expol.ink",
+      "key": "rXUSTPx1tic3-qr",
+      "url": "https://app.codeqr.io/",
+      "shortLink": "https://expol.ink/rXUSTPx1tic3-qr",
+      "scans": 1,
+      "projectId": "cm0bfj5eg000045ruzb5o8tar",
+      "userId": "clv4ckurp0000nircotd5umkn"
+    }
+  }
+}
+```
+</Accordion>
+
+## Page-level events
+
+Due to the high volume nature of these events, they are scoped to a specific page. You need to specify the page(s) when creating a webhook.
+
+### `page.visited`
+
+This event is triggered when a user visits a page. The event payload contains `data.interaction` (the view event, same shape as click event) and optionally `data.page` (full page details).
+
+<Accordion title="Sample payload">
+```json page.visited
+{
+  "id": "evt_b9ywgxWqai2glUpCQjclB17kM",
+  "event": "page.visited",
+  "createdAt": "2024-08-30T10:16:13.149Z",
+  "data": {
+    "eventName": "Page visited",
+    "interaction": {
+      "timestamp": "2024-08-30T10:16:12.124Z",
+      "clickId": "d0UtZqE0BZuBPrJS",
+      "url": "https://github.com/deusdete/codeqr",
+      "ip": "63.141.57.109",
+      "continent": "NA",
+      "country": "US",
+      "city": "San Francisco",
+      "device": "Desktop",
+      "browser": "Chrome",
+      "os": "Mac OS",
+      "bot": false,
+      "qr": false,
+      "referer": "(direct)"
+    },
+    "page": {
+      "id": "cm0snvcxr002jp80474b2dckg",
+      "domain": "expol.ink",
+      "key": "p/pHs20VCe8V",
+      "name": "Deixe seu feedback",
+      "type": "feedback",
+      "views": 1,
+      "projectId": "cm0bfj5eg000045ruzb5o8tar",
+      "userId": "clv4ckurp0000nircotd5umkn"
     }
   }
 }
