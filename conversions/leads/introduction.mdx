@@ -60,7 +60,7 @@ if (codeqrId) {
   await codeqr.track.lead({
     clickId: codeqrId,
     eventName: "Sign Up",
-    externalId: customer.id,
+    customerExternalId: customer.id,
     customerName: customer.name,
     customerEmail: customer.email,
     customerAvatar: customer.avatar,

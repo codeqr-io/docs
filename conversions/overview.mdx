@@ -164,7 +164,7 @@ async function handleUserSignup(userData) {
     await codeqr.track.lead({
       clickId: cq_id,
       eventName: "Cadastro",
-      externalId: userData.id,
+      customerExternalId: userData.id,
       customerName: userData.name,
       customerEmail: userData.email,
     });
@@ -182,7 +182,7 @@ async function handleUserSignup(userData) {
 async function handlePurchase(purchaseData) {
   // 1. Enviar evento de venda para a CodeQR
   await codeqr.track.sale({
-    externalId: purchaseData.customerId, // ID do cliente (mesmo usado no lead)
+    customerExternalId: purchaseData.customerId, // ID do cliente (mesmo usado no lead)
     amount: purchaseData.amount, // valor em centavos
     paymentProcessor: "stripe", // ou "custom" para outros processadores
     eventName: "Compra de produto",
@@ -248,7 +248,7 @@ Para outros processadores de pagamento:
 ```typescript
 // Exemplo: Rastreamento manual de venda
 await codeqr.track.sale({
-  externalId: "cliente_123",
+  customerExternalId: "cliente_123",
   amount: 5900, // na menor unidade da moeda (centavos p/ BRL)
   paymentProcessor: "custom",
   eventName: "Compra de produto",

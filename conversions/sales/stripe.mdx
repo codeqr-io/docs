@@ -283,7 +283,7 @@ Remember in the [lead conversion tracking guide](/conversions/leads/introduction
 await codeqr.track.lead({
   clickId,
   eventName: "Sign Up",
-  externalId: user.id, // the unique user ID of the customer in your database
+  customerExternalId: user.id, // the unique user ID of the customer in your database
   customerName: user.name,
   customerEmail: user.email,
   customerAvatar: user.image,

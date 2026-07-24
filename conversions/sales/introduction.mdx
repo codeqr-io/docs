@@ -56,7 +56,7 @@ import CodeQR from "@codeqr/ts";
 const codeqr = new CodeQR();
 
 await codeqr.track.sale({
-  externalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
+  customerExternalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
   amount: 100,
   paymentProcessor: "stripe",
   eventName: "E-book purchase",
@@ -81,7 +81,7 @@ For simplicity, CodeQR records all sales in the default currency of your CodeQR 
 
 ```typescript TypScript
 await codeqr.track.sale({
-  externalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
+  customerExternalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
   amount: 15480, // this will be converted from PLN to USD
   currency: "pln",
   paymentProcessor: "stripe",

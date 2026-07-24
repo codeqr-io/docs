@@ -2,7 +2,7 @@ Here are the properties you can include when sending a sale event:
 
 | Property           | Required | Description                                                                                                                      |
 | :----------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| `externalId`       | **Yes**  | The unique ID of the customer in your system. Will be used to identify and attribute all future events to this customer.         |
+| `customerExternalId` | **Yes**  | The unique ID of the customer in your system. Will be used to identify and attribute all future events to this customer.         |
 | `amount`           | **Yes**  | The amount of the sale in the smallest unit of the currency (e.g. cents for USD).                                               |
 | `paymentProcessor` | No       | The payment processor that processed the sale. Defaults to `custom`. (E.g. [Stripe](/conversions/sales/stripe))                  |
 | `eventName`        | No       | The name of the event. Defaults to "Purchase".                                                                                   |

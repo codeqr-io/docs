@@ -49,7 +49,7 @@ export const authOptions: NextAuthOptions = {
           await codeqr.track.lead({
             clickId: cq_id,
             eventName: "Sign Up",
-            externalId: user.id,
+            customerExternalId: user.id,
             customerName: user.name,
             customerEmail: user.email,
             customerAvatar: user.image,
@@ -84,7 +84,7 @@ export const getOptions = (req: NextApiRequest): NextAuthOptions => ({
           await codeqr.track.lead({
             clickId: cq_id,
             eventName: "Sign Up",
-            externalId: user.id,
+            customerExternalId: user.id,
             customerName: user.name,
             customerEmail: user.email,
             customerAvatar: user.image,
