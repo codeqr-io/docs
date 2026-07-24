@@ -310,10 +310,6 @@
       "destination": "/api-reference/endpoint/retrieve-top-urls-by-clicks"
     },
     {
-      "source": "/api-reference/endpoint/retrieve-a-partners-analytics",
-      "destination": "/api-reference/endpoint/retrieve-partner-analytics"
-    },
-    {
       "source": "/sdks/typescript/analytics/clicks",
       "destination": "/sdks/typescript/analytics/clicks/count"
     },
