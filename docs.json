@@ -29,8 +29,7 @@
             "group": "QR Codes",
             "pages": [
               "concepts/qrcodes/introduction",
-              "concepts/qrcodes/bulk-operations",
-              "concepts/qrcodes/organization"
+              "concepts/qrcodes/bulk-operations"
             ]
           },
           {
