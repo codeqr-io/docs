@@ -29,8 +29,7 @@
             "group": "QR Codes",
             "pages": [
               "concepts/qrcodes/introduction",
-              "concepts/qrcodes/bulk-operations",
-              "concepts/qrcodes/organization"
+              "concepts/qrcodes/bulk-operations"
             ]
           },
           {
@@ -194,10 +193,6 @@
       "destination": "/sdks/typescript"
     },
     {
-      "source": "/sdks/cli/overview",
-      "destination": "/sdks/cli"
-    },
-    {
       "source": "/sdks/js-client/overview",
       "destination": "/sdks/client-side/installation-guides/react"
     },
@@ -308,10 +303,6 @@
     {
       "source": "/api-reference/endpoint/retrieve-top-urls",
       "destination": "/api-reference/endpoint/retrieve-top-urls-by-clicks"
-    },
-    {
-      "source": "/api-reference/endpoint/retrieve-a-partners-analytics",
-      "destination": "/api-reference/endpoint/retrieve-partner-analytics"
     },
     {
       "source": "/sdks/typescript/analytics/clicks",

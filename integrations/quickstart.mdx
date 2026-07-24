@@ -94,7 +94,7 @@ Here is a step-by-step guide on how to set up OAuth 2.0 authentication with Code
       "access_token": "codeqr_access_token_ae8ebf6f97e6200d886ef48a5...",
       "refresh_token": "7f5acfbe14bca0a20fe6e430ddb7bb494eed160bd...",
       "token_type": "Bearer",
-      "expires_in": 7200,
+      "expires_in": 604800,
       "scope": "projects.read,projects.write,links.read,links.write,qrcodes.read,qrcodes.write,pages.read,pages.write,tags.read,tags.write"
     }
     ```
@@ -119,7 +119,7 @@ Here is a step-by-step guide on how to set up OAuth 2.0 authentication with Code
   </Step>
 
   <Step title="Refresh the access token">
-    CodeQR access tokens are short-lived, depending on the `expires_in` value (the default value is **7,200 seconds**, or **2 hours**). CodeQR will respond with `401 Unauthorized` if you try to use an expired access token.
+    CodeQR access tokens are short-lived, depending on the `expires_in` value (the default value is **604,800 seconds**, or **7 days**). CodeQR will respond with `401 Unauthorized` if you try to use an expired access token.
 
     To refresh the access token, you need to make a POST request to the CodeQR OAuth token URL with the `refresh_token` you obtained when exchanging the code for an `access_token`.
 
@@ -149,7 +149,7 @@ Here is a step-by-step guide on how to set up OAuth 2.0 authentication with Code
       "access_token": "codeqr_access_token_ae8ebf6f97e6200d886ef48a5...",
       "refresh_token": "7f5acfbe14bca0a20fe6e430ddb7bb494eed160bd...",
       "token_type": "Bearer",
-      "expires_in": 7200,
+      "expires_in": 604800,
       "scope": "projects.read,projects.write,links.read,links.write,qrcodes.read,qrcodes.write,pages.read,pages.write,tags.read,tags.write"
     }
     ```
@@ -167,8 +167,8 @@ CodeQR supports the following scopes for OAuth 2.0:
 
 | Scope            | Description                                                         |
 | ---------------- | ------------------------------------------------------------------- |
-| `project.read`   | Read access to project.                                             |
-| `project.write`  | Write access to project.                                            |
+| `projects.read`  | Read access to projects.                                            |
+| `projects.write` | Write access to projects.                                           |
 | `links.read`     | Read access to links.                                               |
 | `links.write`    | Write access to links.                                              |
 | `qrcodes.read`   | Read access to QR Codes.                                            |
@@ -180,6 +180,9 @@ CodeQR supports the following scopes for OAuth 2.0:
 | `analytics.read` | Read access to analytics.                                           |
 | `domains.read`   | Read access to domains.                                             |
 | `domains.write`  | Write access to domains.                                            |
+| `conversions.write` | Record lead and sale conversion events on your behalf.          |
+| `webhooks.read`  | Read access to webhooks.                                            |
+| `webhooks.write` | Write access to webhooks.                                           |
 | `user.read`      | Read access to user information. This scope is included by default. |
 
 ## Integrating via API keys (not recommended)

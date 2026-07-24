@@ -19,6 +19,10 @@ Webhooks allows you to listen to real-time events happening across your CodeQR p
 
 In this guide, we'll show you how to configure webhooks for your CodeQR project and a list of available events you can listen to.
 
+<Note>
+  **Plan requirements.** Receiving webhook deliveries is not plan-gated, but the events you can *subscribe* to are. CRUD events, `lead.created`, and `sale.created` require the **Pro** plan or above. High-volume events (`link.clicked`, `qrcode.scanned`, `page.visited`) — and attaching a specific link, QR Code, or Page to a webhook — require the **Business** plan or above. See [Event types](/concepts/webhooks/event-types) for the full breakdown.
+</Note>
+
 ## Creating a webhook
 
 To create a webhook for your CodeQR project, you'll need to follow these steps:

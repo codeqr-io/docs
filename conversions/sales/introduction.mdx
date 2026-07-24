@@ -9,8 +9,8 @@ import SaleAttributes from "/snippets/sale-attributes.mdx";
 import ViewConversions from "/snippets/view-conversions.mdx";
 
 <Note>
-  Conversion tracking require a [Business plan](https://codeqr.iopricing)
-  subscription or higher.
+  Conversion tracking requires a [Pro plan](https://codeqr.io/pricing)
+  subscription or higher (or an active conversion trial).
 </Note>
 
 When it comes to [conversion tracking](/conversions/quickstart), a `sale` event happens when a user purchases your product or service. Examples include:
@@ -44,14 +44,6 @@ Next, depending on which payment processor you're using, you can leverage our na
   >
     Tracking sale conversion events with Stripe and the CodeQR SDK
   </Card>
-  <Card
-    title="Shopify"
-    icon="shopify"
-    href="/conversions/sales/shopify"
-    horizontal
-  >
-    Tracking sale conversion events with Shopify and the CodeQR SDK
-  </Card>
 </CardGroup>
 
 If you're not using any of the providers listed above, you can also manually track sale events using our [native SDKs](/sdks/overview) within your backend code:
@@ -64,7 +56,7 @@ import CodeQR from "@codeqr/ts";
 const codeqr = new CodeQR();
 
 await codeqr.track.sale({
-  externalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
+  customerExternalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
   amount: 100,
   paymentProcessor: "stripe",
   eventName: "E-book purchase",
@@ -89,7 +81,7 @@ For simplicity, CodeQR records all sales in the default currency of your CodeQR 
 
 ```typescript TypScript
 await codeqr.track.sale({
-  externalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
+  customerExternalId: "cus_RBfbD57HDzPKpduI8elr5qHA",
   amount: 15480, // this will be converted from PLN to USD
   currency: "pln",
   paymentProcessor: "stripe",

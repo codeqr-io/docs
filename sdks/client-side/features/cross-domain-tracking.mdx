@@ -20,7 +20,7 @@ However, if you are installing the script on a subdomain (e.g. **app.example.com
 
 ```html Other
 <script
-  src="https://codeqr-cdn.pages.dev/analytics/script.js"
+  src="https://cdn.codeqr.io/analytics/script.js"
   data-cookie-options='{"domain": ".example.com"}'
 />
 ```
@@ -29,7 +29,7 @@ However, if you are installing the script on a subdomain (e.g. **app.example.com
 
 The script also supports conversion tracking across _entirely different domains_.
 
-This means that if you have the script installed on a separate domain (e.g. **example.sh**), you can use the `outboundDomains` prop to ensure that the `cq_id` cookie value is automatically appended to all outbound links targeting your main domain (e.g. **example.com**).
+This means that if you have the script installed on a separate domain (e.g. **example.sh**), you can use the `domainsConfig.outbound` prop to ensure that the `cq_id` cookie value is automatically appended to all outbound links targeting your main domain (e.g. **example.com**).
 
 <CodeGroup>
 ```typescript React
@@ -43,7 +43,7 @@ This means that if you have the script installed on a separate domain (e.g. **ex
 
 ```html Other
 <script
-  src="https://codeqr-cdn.pages.dev/analytics/script.outbound-domains.js"
+  src="https://cdn.codeqr.io/analytics/script.outbound-domains.js"
   data-domains="{'outbound': ['example.com', 'example.sh']}"
 />
 ```

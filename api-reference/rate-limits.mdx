@@ -8,12 +8,12 @@ CodeQR's API rate limiting is in conformance with the [IETF standard](https://da
 
 | Header Name             | Description                                                                     |
 | ----------------------- | ------------------------------------------------------------------------------- |
-| `X-RateLimit-Limit`     | The maximum number of requests that the consumer is permitted to make per hour. |
+| `X-RateLimit-Limit`     | The maximum number of requests that the consumer is permitted to make per minute. |
 | `X-RateLimit-Remaining` | The number of requests remaining in the current rate limit window.              |
 | `X-RateLimit-Reset`     | The time at which the current rate limit window resets in UTC epoch seconds.    |
 | `Retry-After`           | The number of seconds to wait before retrying the request again.                |
 
-CodeQR's API is capped at **60 requests per minute** per key on the Free plan, with elevated limits for [Pro plan](https://codeqr.io/help/article/pro-plan) and above.
+CodeQR's API is capped at **60 requests per minute** per key on the Free plan, with elevated limits on paid plans (see the table below).
 
 This is implemented to ensure a fair usage policy so that excessive use by a single user does not adversely affect the performance and usage of the API by others.
 
@@ -26,9 +26,10 @@ Depending on your CodeQR plan, you can expect the following rate limits:
 | Plan                                                     | Rate limit                                                                 |
 | -------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Free                                                     | 60 requests per minute                                                     |
-| [Starter](https://codeqr.io/help/article/starter-plan)   | 150 requests per minute                                                    |
-| [Pro](https://codeqr.io/help/article/pro-plan)           | 600 requests per minute                                                    |
-| [Business](https://codeqr.io/help/article/business-plan) | 3,000 requests per minute                                                  |
+| [Starter](https://codeqr.io/help/article/starter-plan)   | 100 requests per minute                                                    |
+| [Pro](https://codeqr.io/help/article/pro-plan)           | 500 requests per minute                                                    |
+| [Business](https://codeqr.io/help/article/business-plan) | 1,000 requests per minute                                                  |
+| Scale                                                    | 10,000 requests per minute                                                 |
 | [Enterprise](https://codeqr.io/enterprise)               | Custom – [reach out to sales](https://codeqr.io/contact/sales) for details |
 
 ## How to comply with rate limits
