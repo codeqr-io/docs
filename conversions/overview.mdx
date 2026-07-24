@@ -15,7 +15,7 @@ Aprenda como você pode usar o recurso CodeQR Conversions para entender como seu
 
 <Note>
   O rastreamento de conversões requer um plano
-  [Business](https://codeqr.io/pricing) ou superior.
+  [Pro](https://codeqr.io/pricing) ou superior (ou um trial de conversão ativo).
 </Note>
 
 Dados são o sangue vital de qualquer negócio. Eles ajudam você a entender seus clientes, tomar decisões baseadas em dados e impulsionar o crescimento.
@@ -115,7 +115,7 @@ Para capturar e armazenar o `cq_id`, você precisa instalar nosso script `@codeq
 **Opção 1: Via CDN (mais simples)**
 
 ```html
-<script src="https://cdn.codeqr.io/analytics.js"></script>
+<script src="https://cdn.codeqr.io/analytics/script.js"></script>
 ```
 
 **Opção 2: Via NPM**
@@ -184,7 +184,7 @@ async function handlePurchase(purchaseData) {
   await codeqr.track.sale({
     externalId: purchaseData.customerId, // ID do cliente (mesmo usado no lead)
     amount: purchaseData.amount, // valor em centavos
-    paymentProcessor: "stripe", // ou "pagseguro", "mercadopago", etc.
+    paymentProcessor: "stripe", // ou "custom" para outros processadores
     eventName: "Compra de produto",
     currency: "brl",
     invoiceId: purchaseData.invoiceId, // ID da nota fiscal (opcional)
@@ -206,9 +206,9 @@ Ao enviar um evento de lead, você pode incluir as seguintes propriedades:
 | `clickId`        | O parâmetro único `cq_id` ao qual o evento de conversão de lead é atribuído.                                          | **Sim**     |
 | `eventName`      | O nome do evento. Exemplo: "Cadastro".                                                                                | **Sim**     |
 | `externalId`     | O ID único do cliente no seu sistema. Será usado para identificar e atribuir todos os eventos futuros a este cliente. | **Sim**     |
-| `customerEmail`  | O endereço de e-mail do cliente. Se não for passado, um endereço de e-mail aleatório será gerado.                     | Não         |
+| `customerEmail`  | O endereço de e-mail do cliente (opcional).                                                                          | Não         |
 | `customerName`   | O nome do cliente. Se não for passado, um nome aleatório será gerado (ex: "Big Red Caribou").                         | Não         |
-| `customerAvatar` | A URL do avatar do cliente. Se não for passado, uma URL de avatar aleatória será gerada.                              | Não         |
+| `customerAvatar` | A URL do avatar do cliente (opcional).                                                                               | Não         |
 
 O evento de lead servirá como a fonte da verdade para a identidade do cliente e de qual link ele veio. Isso significa que todas as ações subsequentes executadas pelo cliente (ex: fazer upgrade do plano, comprar um produto) serão automaticamente atribuídas ao link original.
 
@@ -241,14 +241,6 @@ Configure em poucos cliques e rastreie vendas automaticamente:
 2. Configure o `codeqrCustomerId` no metadata das sessões de checkout
 3. As vendas são rastreadas automaticamente via webhooks
 
-### Integração Shopify
-
-Para lojas online:
-
-1. Instale o app CodeQR Shopify na sua loja
-2. As vendas são detectadas e rastreadas automaticamente
-3. Inclui rastreamento de leads + vendas
-
 ### Implementação Manual
 
 Para outros processadores de pagamento:
@@ -257,8 +249,8 @@ Para outros processadores de pagamento:
 // Exemplo: Rastreamento manual de venda
 await codeqr.track.sale({
   externalId: "cliente_123",
-  amount: 5900, // em centavos
-  paymentProcessor: "pagseguro",
+  amount: 5900, // na menor unidade da moeda (centavos p/ BRL)
+  paymentProcessor: "custom",
   eventName: "Compra de produto",
   currency: "brl",
 });
@@ -360,7 +352,7 @@ Transforme seus links curtos em ferramentas de atribuição:
 
 - Script CDN em uma linha de código
 - SDKs nativos para as principais plataformas
-- Integrações prontas com Stripe e Shopify
+- Integração pronta com Stripe
 
 ### 4. **Analytics em Tempo Real**
 
@@ -411,7 +403,7 @@ Para começar com o CodeQR Conversions, confira nosso guia de início rápido:
     icon="credit-card"
     href="/conversions/sales/introduction"
   >
-    Configure o rastreamento de vendas com Stripe, Shopify e outros
+    Configure o rastreamento de vendas com Stripe e outros
     processadores.
   </Card>
   <Card
@@ -454,7 +446,7 @@ Para começar com o CodeQR Conversions, confira nosso guia de início rápido:
 
 ### O que é necessário para usar o CodeQR Conversions?
 
-Você precisa de um plano [Business](https://codeqr.io/pricing) ou superior da CodeQR para acessar o rastreamento de conversões.
+Você precisa de um plano [Pro](https://codeqr.io/pricing) ou superior da CodeQR (ou um trial de conversão ativo) para acessar o rastreamento de conversões.
 
 ### Posso rastrear conversões em links existentes?
 
@@ -464,7 +456,7 @@ Sim! Você pode habilitar o rastreamento de conversões em links existentes a qu
 
 Sim, o CodeQR Conversions funciona com qualquer tipo de QR Code criado na plataforma CodeQR, incluindo QR Codes estáticos e dinâmicos.
 
-### Posso integrar com outros processadores de pagamento além do Stripe e Shopify?
+### Posso integrar com outros processadores de pagamento além do Stripe?
 
 Sim! Você pode usar nossos SDKs do lado do servidor para integrar com qualquer processador de pagamento ou sistema de e-commerce.
 

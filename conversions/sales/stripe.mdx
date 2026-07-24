@@ -7,8 +7,8 @@ description: "Learn how to track sale conversion events with Stripe and CodeQR"
 import ViewConversions from "/snippets/view-conversions.mdx";
 
 <Note>
-  Conversion tracking require a [Business plan](https://codeqr.iopricing)
-  subscription or higher.
+  Conversion tracking requires a [Pro plan](https://codeqr.io/pricing)
+  subscription or higher (or an active conversion trial).
 </Note>
 
 When it comes to [conversion tracking](/conversions/quickstart), a `sale` event happens when a user purchases your product or service. Examples include:
@@ -109,8 +109,6 @@ Once the integration is installed, CodeQR will automatically listen to the follo
 - `customer.created`: When a new customer is created
 - `customer.updated`: When a customer is updated
 - `checkout.session.completed`: When a customer completes a checkout session
-- `invoice.paid`: When an invoice is paid (for tracking recurring subscriptions)
-- `charge.refunded`: When a charge is refunded (for tracking refunds and updating payout commissions for [CodeQR Partners](https://codeqr.io/partners))
 
 ## Tracking sales with the CodeQR Stripe integration
 
@@ -136,12 +134,12 @@ Then, when a user clicks on the shortened link, CodeQR will automatically append
 
 <Frame>
   <img
-    src="https://assets.codeqr.iocms/conversions-payment-links.jpg"
+    src="https://assets.codeqr.io/cms/conversions-payment-links.jpg"
     alt="Stripe payment link with CodeQR click ID"
   />
 </Frame>
 
-Finally, when the user completes the checkout flow, CodeQR will automatically [track the sale event](/api-reference/endpoint/track-sale) and [update the customer's `externalId`](/api-reference/endpoint/update-a-customer) with their Stripe customer ID for future reference.
+Finally, when the user completes the checkout flow, CodeQR will automatically [track the sale event](/api-reference/endpoint/track-sale) and update the customer's `externalId` with their Stripe customer ID for future reference.
 
 Alternatively, if you have a marketing site that you're redirecting your users to first, you can do this instead:
 
