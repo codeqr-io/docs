@@ -194,10 +194,6 @@
       "destination": "/sdks/typescript"
     },
     {
-      "source": "/sdks/cli/overview",
-      "destination": "/sdks/cli"
-    },
-    {
       "source": "/sdks/js-client/overview",
       "destination": "/sdks/client-side/installation-guides/react"
     },

@@ -18,7 +18,7 @@ module.exports = {
     return [
       {
         source: "/_proxy/codeqr/track/:path",
-        destination: "https://api.codeqr.link/track/:path",
+        destination: "https://api.codeqr.io/track/:path",
       },
     ];
   },
@@ -31,7 +31,7 @@ module.exports = {
   "rewrites": [
     {
       "source": "/_proxy/codeqr/track/:path",
-      "destination": "https://api.codeqr.co/track/:path"
+      "destination": "https://api.codeqr.io/track/:path"
     }
   ]
 }
@@ -65,7 +65,7 @@ export default function App() {
 ```javascript Other Frameworks
 // include this script tag in your HTML Head tag
 <script
-  src="https://codeqr-cdn.pages.dev/analytics/script.js"
+  src="https://cdn.codeqr.io/analytics/script.js"
   data-api-host="/_proxy/codeqr"
   data-domains="{'refer': 'go.example.com'}"
   defer
@@ -89,7 +89,7 @@ module.exports = {
     return [
       {
         source: "/_proxy/codeqr/script.js",
-        destination: "https://codeqr-cdn.pages.dev/analytics/script.js",
+        destination: "https://cdn.codeqr.io/analytics/script.js",
       },
     ];
   },
@@ -102,7 +102,7 @@ module.exports = {
   "rewrites": [
     {
       "source": "/_proxy/codeqr/script.js",
-      "destination": "https://codeqr-cdn.pages.dev/analytics/script.js"
+      "destination": "https://cdn.codeqr.io/analytics/script.js"
     }
   ]
 }
