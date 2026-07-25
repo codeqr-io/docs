@@ -148,7 +148,7 @@
     "href": "https://codeqr.io/home"
   },
   "api": {
-    "openapi": "https://app.stainless.com/api/spec/documented/codeqr/openapi.documented.yml"
+    "openapi": "/api-reference/openapi.documented.yml"
   },
   "background": {
     "image": "/images/background.png"
