@@ -1,0 +1,191 @@
+---
+title: CodeQR MCP server
+sidebarTitle: Introduction
+description: "Connect CodeQR to Claude, Cursor, Gemini Enterprise, and any other MCP client — no API key to copy around."
+---
+
+The CodeQR MCP server lets an AI assistant work directly in your workspace: shorten a URL, generate a QR code, change where a printed code points, and read scan and click analytics — without leaving the conversation.
+
+It speaks the [Model Context Protocol](https://modelcontextprotocol.io), so any client that supports MCP can connect to it.
+
+<Card title="Server endpoint" icon="plug">
+  `https://mcp.codeqr.io/mcp` — Streamable HTTP
+</Card>
+
+## What you can do with it
+
+<CardGroup cols={2}>
+  <Card title="Create and update links" icon="link">
+    Shorten a URL, set a custom slug, add an expiry date, or change a destination after the fact.
+  </Card>
+  <Card title="Generate QR codes" icon="qrcode">
+    Nine content types — URL, WiFi, vCard, WhatsApp, crypto and more — with your own colors and size.
+  </Card>
+  <Card title="Read analytics" icon="chart-line">
+    Scans and clicks grouped by country, device, browser, referrer, or over time.
+  </Card>
+  <Card title="Organize" icon="tags">
+    List your custom domains, create tags, and see what your workspace is on.
+  </Card>
+</CardGroup>
+
+See the [tool reference](/mcp/tools) for all fourteen tools and what each one accepts.
+
+## Connect
+
+You do not need an API key. The first request opens your browser, you sign in to CodeQR and pick which project to grant access to, and the client stores the token from there on.
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```bash
+    claude mcp add --transport http codeqr https://mcp.codeqr.io/mcp
+    ```
+
+    Run `/mcp` inside Claude Code to start the sign-in.
+  </Tab>
+  <Tab title="Claude apps">
+    In the Claude web or desktop app, open **Customize → Connectors**, click **+ → Add custom connector**, and paste:
+
+    ```
+    https://mcp.codeqr.io/mcp
+    ```
+
+    Claude registers itself and walks you through sign-in. Leave the OAuth fields under **Advanced settings** empty — CodeQR issues the credentials automatically.
+
+    On Team and Enterprise plans an owner adds the connector once under **Organization settings → Connectors**; members then enable it from **Customize → Connectors** and sign in with their own CodeQR account.
+  </Tab>
+  <Tab title="Cursor">
+    Add CodeQR to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (per project):
+
+    ```json
+    {
+      "mcpServers": {
+        "codeqr": {
+          "url": "https://mcp.codeqr.io/mcp"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="VS Code">
+    Add CodeQR to `.vscode/mcp.json`:
+
+    ```json
+    {
+      "servers": {
+        "codeqr": {
+          "type": "http",
+          "url": "https://mcp.codeqr.io/mcp"
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+Connecting from Gemini Enterprise takes a few extra fields, because that connector asks for a client ID up front instead of registering itself. See [Gemini Enterprise](/mcp/gemini-enterprise).
+
+<Note>
+  Every client here uses the same endpoint and the same sign-in. If yours is not listed, point it at `https://mcp.codeqr.io/mcp` over Streamable HTTP — the server advertises everything a client needs to discover on its own.
+</Note>
+
+## Try it
+
+Once connected, ask in plain language. Three that exercise different parts of the server:
+
+<CodeGroup>
+```text Shorten
+Shorten https://codeqr.io/pricing for me.
+```
+
+```text QR code
+Create a QR code that connects to my WiFi network "Cafe Guest",
+password "flatwhite", WPA2. Make it dark blue.
+```
+
+```text Analytics
+How many times has my menu QR code been scanned this month?
+```
+</CodeGroup>
+
+The assistant picks the tool; you approve the call. Anything that overwrites or deletes something already in circulation is marked as such, so your client can warn you before it runs.
+
+<Note>
+  Ask for scan counts on **a specific QR code**, as above. Asking for scans broken down by country or device at the workspace level returns clicks across links, QR codes and pages together, not QR scans alone — see [the note on `get_analytics`](/mcp/tools#analytics).
+</Note>
+
+## How sign-in works
+
+You never handle an API key. The flow is standard OAuth 2.0, and the client does the work:
+
+<Steps>
+  <Step title="The client registers itself">
+    On first contact the server answers `401` with a pointer to its metadata, and the client registers via **Dynamic Client Registration** ([RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591)) at `POST /oauth/register`. It gets back a `client_id`. There is no client secret — the server treats every client as public and relies on PKCE instead.
+  </Step>
+  <Step title="You sign in to CodeQR">
+    The client sends you to `/oauth/authorize`, which hands off to CodeQR. You log in, choose the project to grant access to, and approve.
+  </Step>
+  <Step title="The client gets a token">
+    CodeQR returns you to the server, which exchanges the code and issues the client its own token at `POST /oauth/token`. **PKCE with `S256` is required** — a request without a `code_verifier` is rejected.
+  </Step>
+  <Step title="It stays signed in">
+    The CodeQR credentials underneath are refreshed transparently, so you do not sign in again on that client.
+  </Step>
+</Steps>
+
+<Warning>
+  **One signed-in client at a time, per CodeQR project.** Signing in from a second client — or re-authorizing the same one — replaces the previous authorization for that project, and the earlier client stops working until it reconnects. If you want CodeQR in two places at once, point each at a different project.
+</Warning>
+
+The server publishes its own metadata, so a client can discover all of this without being told:
+
+<CodeGroup>
+```bash Protected resource
+curl https://mcp.codeqr.io/.well-known/oauth-protected-resource
+```
+
+```bash Authorization server
+curl https://mcp.codeqr.io/.well-known/oauth-authorization-server
+```
+</CodeGroup>
+
+### What access you grant
+
+Approving the connection grants these scopes on the project you picked:
+
+| Area | Access |
+| --- | --- |
+| Links | read and write |
+| QR codes | read and write |
+| Analytics | read |
+| Domains | read |
+| Tags | read and write |
+
+Access is scoped to the **one project you choose** during sign-in. To reach a second project, connect again and pick that one.
+
+<Warning>
+  **Conversion tracking is not available through this connection.** Reading conversion data needs a scope that only workspace owners can grant, so including it would lock everyone else out of the connection entirely. Use the [API](/api-reference/introduction) for conversions.
+</Warning>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The client says the server is unreachable">
+    Check that it is up:
+
+    ```bash
+    curl https://mcp.codeqr.io/health
+    ```
+
+    A healthy server answers `{"status":"ok","service":"codeqr-mcp-remote", ...}`.
+  </Accordion>
+  <Accordion title="It connects but never asks me to sign in">
+    Some clients only start the OAuth flow when a tool is first called. Ask it to do something — "list my short links" — and the browser should open.
+  </Accordion>
+  <Accordion title="My client only supports SSE">
+    This server speaks Streamable HTTP, the current MCP transport. The older SSE transport is not offered. Update the client, or use one from the list above.
+  </Accordion>
+  <Accordion title="A tool call fails with a permissions error">
+    The token is scoped to the single project you picked at sign-in, and to the scopes listed above. If you are trying to reach a different project, reconnect and choose that one.
+  </Accordion>
+</AccordionGroup>

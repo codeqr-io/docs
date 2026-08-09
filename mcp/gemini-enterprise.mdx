@@ -1,0 +1,106 @@
+---
+title: Gemini Enterprise
+description: "Connect CodeQR to Gemini Enterprise as a custom MCP server."
+---
+
+Gemini Enterprise connects to CodeQR as a **custom MCP server**. It differs from the clients in the [introduction](/mcp/introduction) in one way that changes the setup: it asks for a client ID up front instead of registering itself, so you create one first with a single command.
+
+<Note>
+  Gemini Enterprise supports **Streamable HTTP only** — the transport CodeQR speaks. The legacy SSE transport is not supported by either side.
+</Note>
+
+## Step 1 — Create a client ID
+
+Gemini Enterprise sends users back to a fixed callback URL after they sign in. Register that URL with CodeQR to get a client ID:
+
+```bash
+curl -X POST https://mcp.codeqr.io/oauth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_name": "Gemini Enterprise",
+    "redirect_uris": [
+      "https://vertexaisearch.cloud.google.com/oauth-redirect",
+      "https://vertexaisearch.cloud.google.com/static/oauth/oauth.html"
+    ]
+  }'
+```
+
+You get back a `client_id` starting with `codeqr_`. Keep it — you will paste it in step 2.
+
+```json
+{
+  "client_id": "codeqr_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "client_name": "Gemini Enterprise",
+  "token_endpoint_auth_method": "none",
+  "grant_types": ["authorization_code"],
+  "response_types": ["code"]
+}
+```
+
+<Warning>
+  Register the callback URL **exactly** as Gemini Enterprise shows it in its setup screen. CodeQR checks the redirect URI against what you registered before it echoes anything back, so a mismatch fails the sign-in with `redirect_uri does not match any URI registered for this client`. If your tenant shows a different callback, register that one instead.
+</Warning>
+
+## Step 2 — Add the MCP server
+
+In Gemini Enterprise, go to **Data stores → Create data store**, choose **Custom MCP Server**, and fill in:
+
+| Field | Value |
+| --- | --- |
+| **MCP Server URL** | `https://mcp.codeqr.io/mcp` |
+| **Authentication** | OAuth 2.0 |
+| **Authorization URL** | `https://mcp.codeqr.io/oauth/authorize` |
+| **Token URL** | `https://mcp.codeqr.io/oauth/token` |
+| **Client ID** | the `client_id` from step 1 |
+| **Client Secret** | any value — see below |
+| **Scopes** | `mcp:tools` |
+| **Enable PKCE Support** | **on** — required |
+
+<Warning>
+  **PKCE is mandatory.** CodeQR treats every MCP client as public and relies on PKCE instead of a secret, so an authorization request without `code_challenge_method=S256` is rejected before the user ever sees a login screen. If sign-in fails immediately with `PKCE with S256 code_challenge_method is required`, PKCE is off.
+</Warning>
+
+### About the client secret
+
+CodeQR does not issue one. The registration response says so — `"token_endpoint_auth_method": "none"` — and the token endpoint ignores the field entirely; it authenticates the exchange with PKCE and the registered redirect URI.
+
+Gemini Enterprise marks the field as required, so put any placeholder in it. It is neither sent anywhere meaningful nor checked.
+
+## Step 3 — Enable the actions
+
+Once the data store reaches **Active**, open it and choose **Actions → Reload custom actions**. Sign in to CodeQR and pick the project to grant access to.
+
+The fourteen CodeQR tools appear in the list. Select the ones your team should have and click **Enable actions**.
+
+<Tip>
+  Start with the read-only tools — `list_links`, `list_qrcodes`, `get_analytics`, `get_workspace` — if you want the team exploring before anyone can change a live destination. You can enable the rest later without redoing the connection.
+</Tip>
+
+## What your team gets
+
+Approving the connection grants CodeQR access scoped to the **single project chosen at sign-in**: read and write on links, QR codes and tags, plus read on analytics and domains. Conversion tracking is not included — see [the note on scopes](/mcp/introduction#what-access-you-grant).
+
+Gemini Enterprise caps a data store at **100 enabled actions**; CodeQR uses fourteen, so there is room alongside other servers.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Sign-in fails instantly, before any login screen">
+    PKCE is off. Turn on **Enable PKCE Support** in the connection's authentication settings. CodeQR rejects the authorization request outright without it.
+  </Accordion>
+  <Accordion title="redirect_uri does not match any URI registered for this client">
+    The callback URL Gemini Enterprise uses is not one you registered in step 1. Copy the exact URL from its setup screen and re-run the registration command with it — you get a new `client_id`, which replaces the one in the connection.
+  </Accordion>
+  <Accordion title="Verify Auth fails but the URLs look right">
+    Confirm the server is reachable from outside your network:
+
+    ```bash
+    curl https://mcp.codeqr.io/health
+    ```
+
+    It should answer `{"status":"ok","service":"codeqr-mcp-remote", ...}`. Note that Private Service Connect and VPC Service Controls are not supported by this connector.
+  </Accordion>
+  <Accordion title="No actions appear after connecting">
+    The action list is populated by **Reload custom actions**, not by the connection itself. Run it from the data store once it shows **Active**.
+  </Accordion>
+</AccordionGroup>

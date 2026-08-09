@@ -1,0 +1,224 @@
+---
+title: Tool reference
+description: "The fourteen tools the CodeQR MCP server exposes, and what each one accepts."
+---
+
+Every tool is annotated so your client knows what it does before it runs. Four of them change something already in circulation, and a well-behaved client will ask you to confirm those.
+
+| | Meaning |
+| --- | --- |
+| **Read** | Reads only. Changes nothing. |
+| **Creates** | Creates something publicly reachable. Overwrites nothing. |
+| **Overwrites** | Changes or removes something already shared or printed. |
+| **Workspace only** | Writes private workspace state. Nothing on the open web changes. |
+
+## Links
+
+<AccordionGroup>
+  <Accordion title="create_link — Create Short Link" icon="plus">
+    **Creates.** Create a trackable short link. The link is a live endpoint: it keeps resolving after the conversation ends, and its destination can be changed later with `update_link`.
+
+    <ParamField path="url" type="string" required>
+      The destination URL to shorten.
+    </ParamField>
+    <ParamField path="domain" type="string">
+      Custom domain.
+    </ParamField>
+    <ParamField path="key" type="string">
+      Custom slug. Auto-generated if omitted.
+    </ParamField>
+    <ParamField path="externalId" type="string">
+      Your own reference ID for the link.
+    </ParamField>
+    <ParamField path="tagIds" type="string[]">
+      Tag IDs to associate.
+    </ParamField>
+    <ParamField path="comments" type="string">
+      Internal notes.
+    </ParamField>
+    <ParamField path="expiresAt" type="string">
+      Expiration date, ISO 8601.
+    </ParamField>
+    <ParamField path="password" type="string">
+      Password-protect the link.
+    </ParamField>
+  </Accordion>
+
+  <Accordion title="list_links — List Short Links" icon="list">
+    **Read.** List all short links in the workspace.
+
+    <ParamField path="search" type="string">Search keyword.</ParamField>
+    <ParamField path="domain" type="string">Filter by domain.</ParamField>
+    <ParamField path="tagId" type="string">Filter by tag ID.</ParamField>
+    <ParamField path="page" type="number">Page number.</ParamField>
+  </Accordion>
+
+  <Accordion title="get_link_info — Get Link Details" icon="circle-info">
+    **Read.** Details for one short link. Identify it by `linkId`, by `externalId`, or by `domain` and `key` together — for `codeqr.link/github`, that is domain `codeqr.link` and key `github`. At least one is required.
+
+    <ParamField path="linkId" type="string">The link ID, as returned by `list_links`.</ParamField>
+    <ParamField path="externalId" type="string">Your own ID for the link, if you set one.</ParamField>
+    <ParamField path="domain" type="string">The link domain. Use with `key`.</ParamField>
+    <ParamField path="key" type="string">The link slug. Use with `domain`.</ParamField>
+  </Accordion>
+
+  <Accordion title="update_link — Update Short Link" icon="pen">
+    **Overwrites.** Change where an existing short link points. Anything already shared keeps working and now leads to the new destination — **unless you also change `key`**, which rewrites the link itself and breaks every copy already in circulation.
+
+    <ParamField path="linkId" type="string" required>The link ID to update.</ParamField>
+    <ParamField path="url" type="string">New destination URL.</ParamField>
+    <ParamField path="key" type="string">New slug. Breaks existing copies.</ParamField>
+    <ParamField path="archived" type="boolean">Archive status.</ParamField>
+    <ParamField path="expiresAt" type="string">New expiration date.</ParamField>
+    <ParamField path="comments" type="string">Updated comments.</ParamField>
+  </Accordion>
+
+  <Accordion title="delete_link — Delete Short Link" icon="trash">
+    **Overwrites.** Delete a short link. Anything already shared stops resolving.
+
+    <ParamField path="linkId" type="string" required>The link ID to delete.</ParamField>
+  </Accordion>
+</AccordionGroup>
+
+## QR codes
+
+<AccordionGroup>
+  <Accordion title="create_qrcode — Create QR Code" icon="qrcode">
+    **Creates.** Create a dynamic QR code. The printed pattern encodes a short link rather than the content itself, so what it leads to can be changed later without reprinting, and every scan is recorded.
+
+    Pass the payload field matching the `type` you choose.
+
+    <ParamField path="type" type="string">
+      `url` · `text` · `email` · `phone` · `sms` · `wifi` · `vcard` · `crypto` · `whatsapp`. Defaults to `url`.
+    </ParamField>
+    <ParamField path="url" type="string">For type `url`: the destination the code should lead to.</ParamField>
+    <ParamField path="text" type="string">For type `text`: the plain text to encode.</ParamField>
+    <ParamField path="phone" type="string">For type `phone`: the number to call, e.g. `+5511999999999`.</ParamField>
+    <ParamField path="email" type="object">For type `email`: the message a scan should open.</ParamField>
+    <ParamField path="sms" type="object">For type `sms`: the message a scan should compose.</ParamField>
+    <ParamField path="wifi" type="object">For type `wifi`: the network a scan should join.</ParamField>
+    <ParamField path="vcard" type="object">
+      For type `vcard`: the contact card a scan should offer to save. City, state, zipcode and country are only encoded when `address` is also given.
+    </ParamField>
+    <ParamField path="crypto" type="object">For type `crypto`: the payment request a scan should open.</ParamField>
+    <ParamField path="whatsapp" type="object">For type `whatsapp`: the conversation a scan should open.</ParamField>
+
+    <Note>
+      Three sub-fields are named in a way nobody guesses, and a wrong key saves without error and encodes nothing: the recipient in `crypto` is **`address`**, the blind-copy field in `email` is **`cco`**, and `sms` carries a **`subject`**.
+    </Note>
+
+    <ParamField path="domain" type="string">Domain for the underlying short link.</ParamField>
+    <ParamField path="key" type="string">Custom slug for the underlying short link.</ParamField>
+    <ParamField path="size" type="number">Size in pixels.</ParamField>
+    <ParamField path="level" type="string">Error correction level: `L` · `M` · `Q` · `H`.</ParamField>
+    <ParamField path="fgColor" type="string">Foreground color, hex.</ParamField>
+    <ParamField path="bgColor" type="string">Background color, hex.</ParamField>
+  </Accordion>
+
+  <Accordion title="list_qrcodes — List QR Codes" icon="list">
+    **Read.** List all QR codes in the workspace.
+
+    <ParamField path="page" type="number">Page number.</ParamField>
+  </Accordion>
+
+  <Accordion title="update_qrcode — Update QR Code" icon="pen">
+    **Overwrites.** Change what a dynamic QR code leads to without reprinting it: copies already distributed now resolve to the new content.
+
+    Pass the payload field matching the type the code **already has** — `url` for a link code, `wifi` for a Wi-Fi code. A code cannot be converted from one type to another here: sending a `wifi` payload to a `url` code is accepted and silently changes nothing, so check the type with `list_qrcodes` first if you are unsure.
+
+    <Warning>
+      This does not apply to **static** QR codes, which encode the content directly in the printed pattern. For those the stored record changes, but anything already printed keeps leading to the old content forever.
+    </Warning>
+
+    <ParamField path="qrcodeId" type="string" required>The QR code ID to update.</ParamField>
+    <ParamField path="url" type="string">For a `url` code: the new destination.</ParamField>
+    <ParamField path="text" type="string">For a `text` code: the new plain text.</ParamField>
+    <ParamField path="phone" type="string">For a `phone` code: the new number.</ParamField>
+    <ParamField path="email" type="object">For an `email` code: the new message.</ParamField>
+    <ParamField path="sms" type="object">For an `sms` code: the new message.</ParamField>
+    <ParamField path="wifi" type="object">For a `wifi` code: the new network.</ParamField>
+    <ParamField path="vcard" type="object">For a `vcard` code: the new contact card.</ParamField>
+    <ParamField path="crypto" type="object">For a `crypto` code: the new payment request.</ParamField>
+    <ParamField path="whatsapp" type="object">For a `whatsapp` code: the new conversation.</ParamField>
+    <ParamField path="fgColor" type="string">New foreground color, hex.</ParamField>
+    <ParamField path="bgColor" type="string">New background color, hex.</ParamField>
+    <ParamField path="archived" type="boolean">Archive status.</ParamField>
+  </Accordion>
+
+  <Accordion title="delete_qrcode — Delete QR Code" icon="trash">
+    **Overwrites.** Delete a QR code. Any printed copy stops resolving and cannot be recovered by reprinting.
+
+    <ParamField path="qrcodeId" type="string" required>The QR code ID to delete.</ParamField>
+  </Accordion>
+</AccordionGroup>
+
+## Analytics
+
+<AccordionGroup>
+  <Accordion title="get_analytics — Get Analytics" icon="chart-line">
+    **Read.** Scan and click analytics — workspace-wide, or for one link or QR code.
+
+    <ParamField path="event" type="string" required>
+      `clicks` · `scans` · `leads` · `sales` · `composite`. Use `scans` for QR codes and `clicks` for short links.
+    </ParamField>
+    <ParamField path="groupBy" type="string" required>
+      `count` · `timeseries` · `countries` · `cities` · `devices` · `browsers` · `os` · `referers` · `top_links` · `top_qrcodes` · `top_urls`.
+    </ParamField>
+    <ParamField path="linkId" type="string">Filter by link ID.</ParamField>
+    <ParamField path="qrcodeId" type="string">Filter by QR code ID.</ParamField>
+    <ParamField path="domain" type="string">Filter by domain.</ParamField>
+    <ParamField path="key" type="string">Filter by slug. Use with `domain`.</ParamField>
+    <ParamField path="interval" type="string">
+      `1h` · `24h` · `7d` · `30d` · `90d` · `ytd` · `1y` · `all`. Defaults to `24h`.
+    </ParamField>
+
+    <Note>
+      How far back you can look depends on your plan, and a longer window returns `403` rather than a truncated result: **Free** stops at 30 days, **Starter** at 90 days, **Pro** at 1 year, **Business** has no limit.
+    </Note>
+
+    <Warning>
+      **`scans` is only separated from `clicks` for `count` and `timeseries`.** Every other grouping — `countries`, `cities`, `devices`, `browsers`, `os`, `referers` — reports traffic as `clicks` across links, QR codes and pages together, whichever `event` you pass.
+
+      To break a QR code's scans down by country, pass its `qrcodeId` so the query is scoped to that one code; read the figure as that code's traffic. For a workspace-wide scan total, use `groupBy: count` or `groupBy: timeseries`, which do separate the three.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+## Workspace
+
+<AccordionGroup>
+  <Accordion title="list_domains — List Custom Domains" icon="globe">
+    **Read.** List custom domains configured in the workspace.
+
+    <ParamField path="search" type="string">Search keyword.</ParamField>
+    <ParamField path="page" type="number">Page number.</ParamField>
+    <ParamField path="pageSize" type="number">Results per page.</ParamField>
+  </Accordion>
+
+  <Accordion title="list_tags — List Tags" icon="tags">
+    **Read.** List all tags in the workspace.
+
+    <ParamField path="search" type="string">Search keyword.</ParamField>
+    <ParamField path="page" type="number">Page number.</ParamField>
+    <ParamField path="pageSize" type="number">Results per page.</ParamField>
+  </Accordion>
+
+  <Accordion title="create_tag — Create Tag" icon="tag">
+    **Workspace only.** Create a tag for organizing links.
+
+    <ParamField path="name" type="string" required>Tag name.</ParamField>
+    <ParamField path="color" type="string">
+      `red` · `yellow` · `green` · `blue` · `purple` · `pink` · `brown`.
+    </ParamField>
+  </Accordion>
+
+  <Accordion title="get_workspace — Get Workspace" icon="building">
+    **Read.** The workspace this connection is authorized for, including its name, slug and plan. Useful before creating in bulk, or before using a feature the plan may not include.
+
+    Takes no arguments.
+  </Accordion>
+</AccordionGroup>
+
+## Not available here
+
+**Conversion tracking.** `track_lead` and `track_sale` are not exposed. They need the `conversions.write` scope, which cannot be requested without locking non-owners out of the connection entirely. Use the [API](/api-reference/introduction) for conversions.
