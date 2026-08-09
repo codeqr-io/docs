@@ -102,6 +102,11 @@ Every tool is annotated so your client knows what it does before it runs. Four o
     </ParamField>
     <ParamField path="crypto" type="object">For type `crypto`: the payment request a scan should open.</ParamField>
     <ParamField path="whatsapp" type="object">For type `whatsapp`: the conversation a scan should open.</ParamField>
+
+    <Note>
+      Three sub-fields are named in a way nobody guesses, and a wrong key saves without error and encodes nothing: the recipient in `crypto` is **`address`**, the blind-copy field in `email` is **`cco`**, and `sms` carries a **`subject`**.
+    </Note>
+
     <ParamField path="domain" type="string">Domain for the underlying short link.</ParamField>
     <ParamField path="key" type="string">Custom slug for the underlying short link.</ParamField>
     <ParamField path="size" type="number">Size in pixels.</ParamField>
@@ -170,6 +175,12 @@ Every tool is annotated so your client knows what it does before it runs. Four o
     <Note>
       How far back you can look depends on your plan, and a longer window returns `403` rather than a truncated result: **Free** stops at 30 days, **Starter** at 90 days, **Pro** at 1 year, **Business** has no limit.
     </Note>
+
+    <Warning>
+      **`scans` is only separated from `clicks` for `count` and `timeseries`.** Every other grouping — `countries`, `cities`, `devices`, `browsers`, `os`, `referers` — reports traffic as `clicks` across links, QR codes and pages together, whichever `event` you pass.
+
+      To break a QR code's scans down by country, pass its `qrcodeId` so the query is scoped to that one code; read the figure as that code's traffic. For a workspace-wide scan total, use `groupBy: count` or `groupBy: timeseries`, which do separate the three.
+    </Warning>
   </Accordion>
 </AccordionGroup>
 

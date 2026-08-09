@@ -1,7 +1,7 @@
 ---
 title: CodeQR MCP server
 sidebarTitle: Introduction
-description: "Connect CodeQR to Claude, ChatGPT, Cursor, and any other MCP client — no API key to copy around."
+description: "Connect CodeQR to Claude, Cursor, Gemini Enterprise, and any other MCP client — no API key to copy around."
 ---
 
 The CodeQR MCP server lets an AI assistant work directly in your workspace: shorten a URL, generate a QR code, change where a printed code points, and read scan and click analytics — without leaving the conversation.
@@ -95,7 +95,7 @@ Once connected, ask in plain language. Three that exercise different parts of th
 
 <CodeGroup>
 ```text Shorten
-Shorten https://codeqr.io/pricing for me and tag it "launch".
+Shorten https://codeqr.io/pricing for me.
 ```
 
 ```text QR code
@@ -104,11 +104,15 @@ password "flatwhite", WPA2. Make it dark blue.
 ```
 
 ```text Analytics
-Which countries scanned my QR codes the most in the last 30 days?
+How many times has my menu QR code been scanned this month?
 ```
 </CodeGroup>
 
 The assistant picks the tool; you approve the call. Anything that overwrites or deletes something already in circulation is marked as such, so your client can warn you before it runs.
+
+<Note>
+  Ask for scan counts on **a specific QR code**, as above. Asking for scans broken down by country or device at the workspace level returns clicks across links, QR codes and pages together, not QR scans alone — see [the note on `get_analytics`](/mcp/tools#analytics).
+</Note>
 
 ## How sign-in works
 
@@ -125,9 +129,13 @@ You never handle an API key. The flow is standard OAuth 2.0, and the client does
     CodeQR returns you to the server, which exchanges the code and issues the client its own token at `POST /oauth/token`. **PKCE with `S256` is required** — a request without a `code_verifier` is rejected.
   </Step>
   <Step title="It stays signed in">
-    The CodeQR credentials underneath are refreshed transparently. You sign in once per client.
+    The CodeQR credentials underneath are refreshed transparently, so you do not sign in again on that client.
   </Step>
 </Steps>
+
+<Warning>
+  **One signed-in client at a time, per CodeQR project.** Signing in from a second client — or re-authorizing the same one — replaces the previous authorization for that project, and the earlier client stops working until it reconnects. If you want CodeQR in two places at once, point each at a different project.
+</Warning>
 
 The server publishes its own metadata, so a client can discover all of this without being told:
 
@@ -169,7 +177,7 @@ Access is scoped to the **one project you choose** during sign-in. To reach a se
     curl https://mcp.codeqr.io/health
     ```
 
-    A healthy server answers `{"status":"ok","service":"codeqr-mcp-remote","version":"0.1.0"}`.
+    A healthy server answers `{"status":"ok","service":"codeqr-mcp-remote", ...}`.
   </Accordion>
   <Accordion title="It connects but never asks me to sign in">
     Some clients only start the OAuth flow when a tool is first called. Ask it to do something — "list my short links" — and the browser should open.
